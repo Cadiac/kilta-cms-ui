@@ -5,7 +5,7 @@ import Html.Events exposing ( onClick )
 
 -- component import example
 import Components.Hello exposing ( hello )
-
+import Components.Navbar exposing ( navbar )
 
 -- APP
 main : Program Never Int Msg
@@ -36,7 +36,8 @@ update msg model =
 view : Model -> Html Msg
 view model =
   div [ class "container" ][
-    div [ class "box" ][    -- inline CSS (literal)
+    navbar "Main title"
+    , div [ class "box" ][    -- inline CSS (literal)
       article [ class "media" ][
         div [ class "media-left" ][
           figure [ class "image is-64x64" ][
