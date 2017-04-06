@@ -35,16 +35,24 @@ update msg model =
 -- CSS can be applied via class names or inline style attrib
 view : Model -> Html Msg
 view model =
-  div [ class "container", style [("margin-top", "30px"), ( "text-align", "center" )] ][    -- inline CSS (literal)
-    div [ class "row" ][
-      div [ class "col-xs-12" ][
-        div [ class "jumbotron" ][
-          img [ src "static/img/elm.jpg", style styles.img ] []                             -- inline CSS (via var)
-          , hello model                                                                     -- ext 'hello' component (takes 'model' as arg)
-          , p [] [ text ( "Elm Webpack Starter" ) ]
-          , button [ class "btn btn-primary btn-lg", onClick Increment ] [                  -- click handler
-            span[ class "glyphicon glyphicon-star" ][]                                      -- glyphicon
-            , span[][ text "FTW!" ]
+  div [ class "container" ][
+    div [ class "box" ][    -- inline CSS (literal)
+      article [ class "media" ][
+        div [ class "media-left" ][
+          figure [ class "image is-64x64" ][
+            img [ src "static/img/elm.jpg"  ] []
+          ]                             -- inline CSS (via var)
+        ]
+        , div [ class "media-content" ][
+          div [ class "content" ][
+            hello model                                                    -- ext 'hello' component (takes 'model' as arg)
+            , p [ class "title is-4" ] [ text ( "Elm Webpack Starter" ) ]
+            , button [ class "button is-primary", onClick Increment ] [                  -- click handler
+              span [ class "icon is-small" ][
+                i [ class "fa fa-star" ][]
+              ]
+              , span [][ text "Increment" ]
+            ]
           ]
         ]
       ]

@@ -1,5 +1,29 @@
-$icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
-@import '~bootstrap-sass/assets/stylesheets/bootstrap/_mixins.scss';
-@import '~bootstrap-sass/assets/stylesheets/_bootstrap.scss';
+// Override Bulma default theme
+$black:        #1f0e00;
+$black-bis:    #2e1500;
+$black-ter:    #472000;
 
-// can add Boostrap overrides, additional Sass/CSS below...
+$grey-darker:  hsl(0, 0%, 21%);
+$grey-dark:    hsl(0, 0%, 29%);
+$grey:         hsl(0, 0%, 48%);
+$grey-light:   hsl(0, 0%, 71%);
+$grey-lighter: hsl(0, 0%, 86%);
+
+$white-ter:    hsl(0, 0%, 96%);
+$white-bis:    hsl(0, 0%, 98%);
+$white:        hsl(0, 0%, 100%);
+
+$orange:       #FF821E;
+$yellow:       #FFF046;
+$green:        #329E41;
+$turquoise:    #005A4B;
+$blue:         #46289A;
+$purple:       #500A5A;
+$red:          #FF5240;
+
+@import "~bulma/bulma";
+
+// Helper to force center justify
+.is-centered {
+  justify-content: center !important;
+};
