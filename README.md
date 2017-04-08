@@ -8,7 +8,7 @@ The project was scaffolded using [elm-webpack-starter](https://github.com/elm-co
 
 ## Install:
 
-Copy `.env.sample` into `.env`, and change the variables as desired.
+Copy `.env.sample` into `.env`, change the variables as desired and run `source .env`.
 
 Install all dependencies using the handy `reinstall` script:
 
