@@ -6,6 +6,7 @@ import Html.Events exposing ( onClick )
 -- component import example
 import Components.Hello exposing ( hello )
 import Components.Navbar exposing ( navbar )
+import Components.Sponsors exposing ( sponsorGrid, getSponsors, Model, Msg )
 
 -- APP
 main : Program Never Int Msg
@@ -19,6 +20,9 @@ type alias Model = Int
 model : number
 model = 0
 
+
+sponsors : Components.Sponsors.Model
+sponsors = getSponsors
 
 -- UPDATE
 type Msg = NoOp | Increment
@@ -37,6 +41,7 @@ view : Model -> Html Msg
 view model =
   div [ class "container" ][
     navbar "Main title"
+    , sponsorGrid sponsors
     , div [ class "box" ][    -- inline CSS (literal)
       article [ class "media" ][
         div [ class "media-left" ][
