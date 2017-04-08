@@ -71,7 +71,7 @@ decodeSponsors =
   Json.Decode.list (map3 Sponsor
     (at ["name"] string)
     (at ["website"] string)
-    (at ["logo"] string)
+    (at ["logo", "url"] string)
   )
 
 -- SUBSCRIPTIONS
@@ -87,25 +87,27 @@ subscriptions model =
 -- CSS can be applied via class names or inline style attrib
 view : Model -> Html Msg
 view model =
-  div [ class "container" ][
+  div [][
     navbar "Main title"
-    , sponsorGrid model.sponsors
-    , div [ class "box" ][    -- inline CSS (literal)
-      article [ class "media" ][
-        div [ class "media-left" ][
-          figure [ class "image is-64x64" ][
-            img [ src "static/img/elm.jpg"  ] []
-          ]                             -- inline CSS (via var)
-        ]
-        , div [ class "media-content" ][
-          div [ class "content" ][
-            hello model.amount                                                    -- ext 'hello' component (takes 'model' as arg)
-            , p [ class "title is-4" ] [ text ( "Elm Webpack Starter" ) ]
-            , button [ class "button is-primary", onClick Increment ] [                  -- click handler
-              span [ class "icon is-small" ][
-                i [ class "fa fa-star" ][]
+    , section [ class "section" ][
+      sponsorGrid model.sponsors
+      , div [ class "box" ][    -- inline CSS (literal)
+        article [ class "media" ][
+          div [ class "media-left" ][
+            figure [ class "image is-64x64" ][
+              img [ src "static/img/elm.jpg"  ] []
+            ]                             -- inline CSS (via var)
+          ]
+          , div [ class "media-content" ][
+            div [ class "content" ][
+              hello model.amount                                                    -- ext 'hello' component (takes 'model' as arg)
+              , p [ class "title is-4" ] [ text ( "Elm Webpack Starter" ) ]
+              , button [ class "button is-primary", onClick Increment ] [                  -- click handler
+                span [ class "icon is-small" ][
+                  i [ class "fa fa-star" ][]
+                ]
+                , span [][ text "Increment" ]
               ]
-              , span [][ text "Increment" ]
             ]
           ]
         ]
