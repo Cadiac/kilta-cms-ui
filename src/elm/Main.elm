@@ -3,35 +3,83 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing ( onClick )
 
+import Http
+import Json.Decode exposing (Decoder, string, list, map3, at)
+
 -- component import example
 import Components.Hello exposing ( hello )
 import Components.Navbar exposing ( navbar )
-import Components.Sponsors exposing ( sponsorGrid, getSponsors, Model, Msg )
+import Components.Sponsors exposing ( sponsorGrid, Sponsor )
 
 -- APP
-main : Program Never Int Msg
+main : Program Never Model Msg
 main =
-  Html.beginnerProgram { model = model, view = view, update = update }
-
+  Html.program
+    { init = init
+    , view = view
+    , update = update
+    , subscriptions = subscriptions
+    }
 
 -- MODEL
-type alias Model = Int
+type alias Model =
+  { sponsors: List Sponsor
+  , amount : Int
+  }
 
-model : number
-model = 0
+init : (Model, Cmd Msg)
+init =
+  ( Model [] 0
+  , getSponsors
+  )
 
-
-sponsors : Components.Sponsors.Model
-sponsors = getSponsors
 
 -- UPDATE
-type Msg = NoOp | Increment
+type Msg
+  = NoOp
+  | Increment
+  | NewSponsors (Result Http.Error (List Sponsor))
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
   case msg of
-    NoOp -> model
-    Increment -> model + 1
+    NoOp -> (model, Cmd.none)
+
+    Increment -> ({ model | amount = model.amount + 1 }, Cmd.none)
+
+    NewSponsors (Ok newSponsors) ->
+      ({ model | sponsors = newSponsors }, Cmd.none)
+
+    NewSponsors (Err _) -> (model, Cmd.none)
+
+
+-- HTTP
+
+getSponsors : Cmd Msg
+getSponsors =
+  let
+    url =
+      "http://localhost:8081/api/v1/sponsors"
+
+    request =
+      Http.get url decodeSponsors
+  in
+    Http.send NewSponsors request
+
+decodeSponsors : Decoder (List Sponsor)
+decodeSponsors =
+  Json.Decode.list (map3 Sponsor
+    (at ["name"] string)
+    (at ["website"] string)
+    (at ["logo"] string)
+  )
+
+-- SUBSCRIPTIONS
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+  Sub.none
 
 
 -- VIEW
@@ -41,7 +89,7 @@ view : Model -> Html Msg
 view model =
   div [ class "container" ][
     navbar "Main title"
-    , sponsorGrid sponsors
+    , sponsorGrid model.sponsors
     , div [ class "box" ][    -- inline CSS (literal)
       article [ class "media" ][
         div [ class "media-left" ][
@@ -51,7 +99,7 @@ view model =
         ]
         , div [ class "media-content" ][
           div [ class "content" ][
-            hello model                                                    -- ext 'hello' component (takes 'model' as arg)
+            hello model.amount                                                    -- ext 'hello' component (takes 'model' as arg)
             , p [ class "title is-4" ] [ text ( "Elm Webpack Starter" ) ]
             , button [ class "button is-primary", onClick Increment ] [                  -- click handler
               span [ class "icon is-small" ][
