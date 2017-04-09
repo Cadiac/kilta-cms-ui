@@ -1,11 +1,10 @@
-module Components.Navbar exposing (..)
+module Components.Navbar exposing (view)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
--- navbar component
-navbar : String -> Html a
-navbar title =
+view : String -> Html a
+view title =
   header [ class "nav" ][
     div [ class "nav-left" ][
       div [ class "nav-item" ][

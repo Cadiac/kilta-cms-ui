@@ -1,4 +1,4 @@
-module Components.Sponsors exposing (sponsorGrid, Sponsor)
+module Components.Sponsors exposing (view, Sponsor)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -25,8 +25,8 @@ sponsorItem sponsor =
     ]
   ]
 
-sponsorGrid : List Sponsor -> Html msg
-sponsorGrid sponsors =
+view : List Sponsor -> Html msg
+view sponsors =
   div [ class "box" ] [
     div [ class "heading" ] [
       h1 [ class "subtitle", style styles.heading ] [

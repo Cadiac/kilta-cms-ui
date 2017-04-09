@@ -1,4 +1,6 @@
-module Components.Hello exposing (..)
+module Components.Hello exposing (view)
+
+import Msgs exposing (Msg)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -13,8 +15,8 @@ hello model =
     [ class "h1" ]
     [ text ( "Hello, Elm" ++ ( "!" |> String.repeat model ) ) ]
 
-helloBox: Int -> msg -> Html msg
-helloBox amount increment =
+view : Int -> Msg -> Html Msg
+view amount increment =
   div [ class "box" ][    -- inline CSS (literal)
     article [ class "media" ][
       div [ class "media-left" ][
