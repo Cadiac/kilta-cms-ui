@@ -1,21 +1,30 @@
-module Components.Sponsors exposing (view, Sponsor)
+module Components.Sponsors exposing (view)
 
+import Msgs exposing (Msg)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
+import RemoteData exposing (WebData)
+import Models exposing (Sponsor)
 
--- MODEL
+maybeSponsorGrid : WebData (List Sponsor) -> Html Msg
+maybeSponsorGrid response =
+  case response of
+    RemoteData.NotAsked ->
+      text ""
 
-type alias Sponsor =
-  { name : String
-  , website : String
-  , logo: String
-  }
+    RemoteData.Loading ->
+      text "Loading..."
 
+    RemoteData.Success sponsors ->
+      div [ class "columns is-multiline is-mobile" ] (
+        List.map sponsorItem sponsors
+      )
 
--- VIEW
+    RemoteData.Failure error ->
+      text (toString error)
 
-sponsorItem : Sponsor -> Html msg
+sponsorItem : Sponsor -> Html Msg
 sponsorItem sponsor =
   div [ class "column is-one-third", style styles.column ] [
     figure [ class "image is-64x64", style styles.logo ][
@@ -25,17 +34,15 @@ sponsorItem sponsor =
     ]
   ]
 
-view : List Sponsor -> Html msg
-view sponsors =
+view : WebData (List Sponsor) -> Html Msg
+view response =
   div [ class "box" ] [
     div [ class "heading" ] [
       h1 [ class "subtitle", style styles.heading ] [
         text "Yhteistyökumppanit"
       ]
     ]
-    , div [ class "columns is-multiline is-mobile" ] (
-      List.map sponsorItem sponsors
-    )
+    , maybeSponsorGrid response
   ]
 
 -- CSS

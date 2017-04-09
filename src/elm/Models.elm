@@ -1,6 +1,6 @@
 module Models exposing (..)
 
-import Components.Sponsors exposing ( Sponsor )
+import RemoteData exposing (WebData)
 
 type alias Image = {
   url: String,
@@ -23,20 +23,27 @@ type alias Info =
 type alias Flags =
   { apiUrl: String }
 
+
+type alias Sponsor =
+  { name : String
+  , website : String
+  , logo: String
+  }
+
 -- MODEL
 
 
 type alias Model =
-  { info : Info
-  , sponsors : List Sponsor
+  { info : WebData Info
+  , sponsors : WebData (List Sponsor)
   , amount : Int
   , config : Flags
   }
 
 initialModel : Flags -> Model
 initialModel flags =
-  { info = (Info "" "" "" (Image "" "") [])
-  , sponsors = []
+  { info = RemoteData.Loading
+  , sponsors = RemoteData.Loading
   , amount = 0
   , config = flags
   }

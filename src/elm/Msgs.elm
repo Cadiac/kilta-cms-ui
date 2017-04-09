@@ -1,12 +1,10 @@
 module Msgs exposing (..)
 
-import Http
-
-import Components.Sponsors exposing ( Sponsor )
-import Models exposing ( Info )
+import RemoteData exposing ( WebData )
+import Models exposing ( Info, Sponsor )
 
 type Msg
   = NoOp
   | Increment
-  | FetchSponsors (Result Http.Error (List Sponsor))
-  | FetchInfo (Result Http.Error Info)
+  | OnFetchSponsors (WebData (List Sponsor))
+  | OnFetchInfo (WebData Info)

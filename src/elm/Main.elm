@@ -6,14 +6,14 @@ import Msgs exposing (Msg)
 import Models exposing (initialModel, Model, Flags, Info, Image)
 import Update exposing (update)
 import View exposing (view)
-import Api exposing (getSponsors)
+import Commands exposing (fetchSponsors)
 
 -- INIT
 
 init : Flags -> (Model, Cmd Msg)
 init flags =
   ( initialModel flags
-  , getSponsors flags.apiUrl
+  , fetchSponsors flags.apiUrl
   )
 
 
