@@ -30,11 +30,34 @@ type alias Sponsor =
   , logo: String
   }
 
+type alias NewsItem =
+  { id : Int
+  , title : String
+  , text : String
+  , slug : String
+  , created_on : String
+  , tags : String
+  , news_category : Int
+  , authors : List String
+  }
+
+type alias NewsId = String
+
+-- ROUTES
+
+
+type Route
+    = IndexRoute
+    | NewsListRoute
+    | NewsRoute NewsId
+    | NotFoundRoute
+
 -- MODEL
 
 
 type alias Model =
   { info : WebData Info
+  , news : WebData (List NewsItem)
   , sponsors : WebData (List Sponsor)
   , amount : Int
   , config : Flags
@@ -43,6 +66,7 @@ type alias Model =
 initialModel : Flags -> Model
 initialModel flags =
   { info = RemoteData.Loading
+  , news = RemoteData.Loading
   , sponsors = RemoteData.Loading
   , amount = 0
   , config = flags

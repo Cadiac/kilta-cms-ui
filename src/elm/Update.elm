@@ -14,5 +14,8 @@ update msg model =
     Msgs.OnFetchSponsors response ->
       ( { model | sponsors = response }, Cmd.none )
 
+    Msgs.OnFetchNews response ->
+      ( { model | news = response }, Cmd.none )
+
     Msgs.OnFetchInfo response ->
       ( { model | info = response }, Cmd.none )

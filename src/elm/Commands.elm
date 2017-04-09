@@ -5,7 +5,7 @@ import Http
 import Json.Decode as Decode
 import Json.Decode.Pipeline exposing (decode, required, requiredAt)
 import Msgs exposing (Msg)
-import Models exposing (Flags, Info, Image, JumbotronImage, Sponsor)
+import Models exposing (Flags, Info, Image, JumbotronImage, Sponsor, NewsItem)
 import RemoteData
 
 -- COMMANDS
@@ -30,6 +30,16 @@ fetchInfo apiUrl =
     Http.get url infoDecoder
       |> RemoteData.sendRequest
       |> Cmd.map Msgs.OnFetchInfo
+
+fetchNews : String -> Cmd Msg
+fetchNews apiUrl =
+  let
+    url =
+      apiUrl ++ "/api/v1/news"
+  in
+    Http.get url newsDecoder
+      |> RemoteData.sendRequest
+      |> Cmd.map Msgs.OnFetchNews
 
 -- DECODERS
 
@@ -65,3 +75,19 @@ jumbotronDecoder =
   decode JumbotronImage
     |> required "title" Decode.string
     |> required "url" Decode.string
+
+newsDecoder : Decode.Decoder (List NewsItem)
+newsDecoder =
+  Decode.list newsItemDecoder
+
+newsItemDecoder : Decode.Decoder NewsItem
+newsItemDecoder =
+  decode NewsItem
+    |> required "id" Decode.int
+    |> required "title" Decode.string
+    |> required "text" Decode.string
+    |> required "slug" Decode.string
+    |> required "created_on" Decode.string
+    |> required "tags" Decode.string
+    |> required "news_category" Decode.int
+    |> required "authors" (Decode.list Decode.string)
