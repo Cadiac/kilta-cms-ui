@@ -3,7 +3,7 @@ module Msgs exposing (..)
 import Http
 
 import Components.Sponsors exposing ( Sponsor )
-import Types exposing ( Info )
+import Models exposing ( Info )
 
 type Msg
   = NoOp

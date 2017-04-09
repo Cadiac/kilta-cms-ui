@@ -1,12 +1,12 @@
 module Api exposing (..)
 
 import Msgs exposing (Msg)
+import Models exposing (Flags, Info, Image, JumbotronImage)
 
 import Http
 import Json.Decode exposing (Decoder, string, list, map2, map3, map5, at)
 
 import Components.Sponsors exposing ( Sponsor )
-import Types exposing (..)
 
 getSponsors : String -> Cmd Msg
 getSponsors apiUrl =

@@ -3,21 +3,16 @@ module Main exposing (..)
 import Html exposing (program)
 
 import Msgs exposing (Msg)
-import Models exposing (Model)
+import Models exposing (initialModel, Model, Flags, Info, Image)
 import Update exposing (update)
 import View exposing (view)
-import Types exposing (Flags, Info, Image)
 import Api exposing (getSponsors)
 
 -- INIT
 
 init : Flags -> (Model, Cmd Msg)
 init flags =
-  ( Model
-      (Info "" "" "" (Image "" "") [])
-      []
-      0
-      flags
+  ( initialModel flags
   , getSponsors flags.apiUrl
   )
 
