@@ -37,7 +37,7 @@ type alias Model =
 init : Flags -> (Model, Cmd Msg)
 init flags =
   ( Model [] 0 flags
-  , getSponsors
+  , getSponsors flags.apiUrl
   )
 
 -- UPDATE
@@ -63,11 +63,11 @@ update msg model =
 -- HTTP
 
 
-getSponsors : Cmd Msg
-getSponsors =
+getSponsors : String -> Cmd Msg
+getSponsors apiUrl =
   let
     url =
-      "http://localhost:8081/api/v1/sponsors"
+      apiUrl ++ "/api/v1/sponsors"
 
     request =
       Http.get url decodeSponsors
