@@ -42,6 +42,9 @@ var commonConfig = {
       template: 'src/static/index.html',
       inject:   'body',
       filename: 'index.html'
+    }),
+    new webpack.DefinePlugin({
+      'process.env.API_URL': JSON.stringify(process.env.API_URL),
     })
   ],
 

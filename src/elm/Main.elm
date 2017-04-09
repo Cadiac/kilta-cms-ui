@@ -1,20 +1,24 @@
 module Main exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing ( onClick )
 
 import Http
 import Json.Decode exposing (Decoder, string, list, map3, at)
 
 -- component import example
-import Components.Hello exposing ( hello )
+import Components.Hello exposing ( hello, helloBox )
 import Components.Navbar exposing ( navbar )
 import Components.Sponsors exposing ( sponsorGrid, Sponsor )
 
+type alias Flags =
+  { apiUrl: String }
+
 -- APP
-main : Program Never Model Msg
+
+
+main : Program Flags Model Msg
 main =
-  Html.program
+  Html.programWithFlags
     { init = init
     , view = view
     , update = update
@@ -22,19 +26,23 @@ main =
     }
 
 -- MODEL
+
+
 type alias Model =
   { sponsors: List Sponsor
   , amount : Int
+  , config : Flags
   }
 
-init : (Model, Cmd Msg)
-init =
-  ( Model [] 0
+init : Flags -> (Model, Cmd Msg)
+init flags =
+  ( Model [] 0 flags
   , getSponsors
   )
 
-
 -- UPDATE
+
+
 type Msg
   = NoOp
   | Increment
@@ -52,8 +60,8 @@ update msg model =
 
     NewSponsors (Err _) -> (model, Cmd.none)
 
-
 -- HTTP
+
 
 getSponsors : Cmd Msg
 getSponsors =
@@ -90,26 +98,12 @@ view model =
   div [][
     navbar "Main title"
     , section [ class "section" ][
-      sponsorGrid model.sponsors
-      , div [ class "box" ][    -- inline CSS (literal)
-        article [ class "media" ][
-          div [ class "media-left" ][
-            figure [ class "image is-64x64" ][
-              img [ src "static/img/elm.jpg"  ] []
-            ]                             -- inline CSS (via var)
-          ]
-          , div [ class "media-content" ][
-            div [ class "content" ][
-              hello model.amount                                                    -- ext 'hello' component (takes 'model' as arg)
-              , p [ class "title is-4" ] [ text ( "Elm Webpack Starter" ) ]
-              , button [ class "button is-primary", onClick Increment ] [                  -- click handler
-                span [ class "icon is-small" ][
-                  i [ class "fa fa-star" ][]
-                ]
-                , span [][ text "Increment" ]
-              ]
-            ]
-          ]
+      div [ class "columns" ][
+        div [ class "column is-two-thirds" ][
+          helloBox model.amount Increment
+        ]
+        , div [ class "column" ][
+          sponsorGrid model.sponsors
         ]
       ]
     ]
