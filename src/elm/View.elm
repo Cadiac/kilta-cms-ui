@@ -14,7 +14,7 @@ import Components.News
 view : Model -> Html Msg
 view model =
   div [] [
-    Components.Navbar.view "Main title"
+    Components.Navbar.view model.info
     , section [ class "section" ] [
       div [ class "columns" ] [
         div [ class "column is-two-thirds"] [

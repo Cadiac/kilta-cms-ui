@@ -3,12 +3,31 @@ module Components.Navbar exposing (view)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
-view : String -> Html a
-view title =
+import Msgs exposing (Msg)
+import Models exposing (Info)
+import RemoteData exposing (WebData)
+
+maybeTitle : WebData (Info) -> Html Msg
+maybeTitle response =
+  case response of
+    RemoteData.NotAsked ->
+      text ""
+
+    RemoteData.Loading ->
+      text "Loading..."
+
+    RemoteData.Success info ->
+      text ( info.title )
+
+    RemoteData.Failure error ->
+      text (toString error)
+
+view : WebData Info -> Html Msg
+view response =
   header [ class "nav" ][
     div [ class "nav-left" ][
       div [ class "nav-item" ][
-        text ( title )
+        maybeTitle response
       ]
     ]
     , div [ class "nav-right nav-menu" ][

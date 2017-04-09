@@ -28,7 +28,7 @@ newsItem : NewsItem -> Html Msg
 newsItem news =
   article [] [
     div [ class "heading" ] [
-      h2 [ class "subtitle" ] [
+      h2 [ class "subtitle is-4" ] [
         text news.title
       ]
     ]
@@ -41,7 +41,7 @@ view : WebData (List NewsItem) -> Html Msg
 view response =
   section [ class "box" ] [
     div [ class "heading" ] [
-      h1 [ class "title" ] [
+      h1 [ class "title is-3" ] [
         text "Ajankohtaista"
       ]
     ]

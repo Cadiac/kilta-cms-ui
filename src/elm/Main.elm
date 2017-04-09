@@ -6,16 +6,17 @@ import Msgs exposing (Msg)
 import Models exposing (initialModel, Model, Flags, Info, Image)
 import Update exposing (update)
 import View exposing (view)
-import Commands exposing (fetchSponsors, fetchNews)
+import Commands exposing (fetchInfo, fetchNews, fetchSponsors)
 
 -- INIT
 
 init : Flags -> (Model, Cmd Msg)
 init flags =
   ( initialModel flags
-  , Cmd.batch [
-      fetchSponsors flags.apiUrl,
-      fetchNews flags.apiUrl
+  , Cmd.batch
+    [ fetchInfo flags.apiUrl
+    , fetchNews flags.apiUrl
+    , fetchSponsors flags.apiUrl
     ]
   )
 
