@@ -3,12 +3,31 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 
 import Http
-import Json.Decode exposing (Decoder, string, list, map3, at)
+import Json.Decode exposing (Decoder, string, list, map2, map3, map5, at)
 
--- component import example
 import Components.Hello exposing ( hello, helloBox )
 import Components.Navbar exposing ( navbar )
 import Components.Sponsors exposing ( sponsorGrid, Sponsor )
+
+-- TYPES
+
+type alias Image = {
+  url: String,
+  thumbnail: String
+}
+
+type alias JumbotronImage = {
+  title: String,
+  url: String
+}
+
+type alias Info =
+  { title : String
+  , introduction : String
+  , name: String
+  , logo: Image
+  , jumbotron: List JumbotronImage
+  }
 
 type alias Flags =
   { apiUrl: String }
@@ -29,14 +48,16 @@ main =
 
 
 type alias Model =
-  { sponsors: List Sponsor
+  { info : Info
+  , sponsors : List Sponsor
   , amount : Int
   , config : Flags
   }
 
 init : Flags -> (Model, Cmd Msg)
 init flags =
-  ( Model [] 0 flags
+  ( Model {} [] 0 flags
+  , getInfo flags.apiUrl
   , getSponsors flags.apiUrl
   )
 
@@ -46,7 +67,8 @@ init flags =
 type Msg
   = NoOp
   | Increment
-  | NewSponsors (Result Http.Error (List Sponsor))
+  | FetchSponsors (Result Http.Error (List Sponsor))
+  | FetchInfo (Result Http.Error Info)
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -55,10 +77,15 @@ update msg model =
 
     Increment -> ({ model | amount = model.amount + 1 }, Cmd.none)
 
-    NewSponsors (Ok newSponsors) ->
+    FetchSponsors (Ok newSponsors) ->
       ({ model | sponsors = newSponsors }, Cmd.none)
 
-    NewSponsors (Err _) -> (model, Cmd.none)
+    FetchSponsors (Err _) -> (model, Cmd.none)
+
+    FetchInfo (Ok newInfo) ->
+      ({ model | info = newInfo }, Cmd.none)
+
+    FetchInfo (Err _) -> (model, Cmd.none)
 
 -- HTTP
 
@@ -72,7 +99,7 @@ getSponsors apiUrl =
     request =
       Http.get url decodeSponsors
   in
-    Http.send NewSponsors request
+    Http.send FetchSponsors request
 
 decodeSponsors : Decoder (List Sponsor)
 decodeSponsors =
@@ -81,6 +108,34 @@ decodeSponsors =
     (at ["website"] string)
     (at ["logo", "url"] string)
   )
+
+getInfo : String -> Cmd Msg
+getInfo apiUrl =
+  let
+    url =
+      apiUrl ++ "/api/v1/info"
+
+    request =
+      Http.get url decodeInfo
+  in
+    Http.send FetchInfo request
+
+decodeInfo : Decoder (Info)
+decodeInfo =
+  map5 Info
+    (at ["main_title"] string)
+    (at ["introduction_text"] string)
+    (at ["guild_name"] string)
+    (at ["guild_logo"] (map2 Image
+      (at ["url"] string)
+      (at ["thumbnail"] string)
+    ))
+    (at ["jumbotron_images"]
+      (Json.Decode.list (map2 JumbotronImage
+        (at ["title"] string)
+        (at ["url"] string)
+      ))
+    )
 
 -- SUBSCRIPTIONS
 
