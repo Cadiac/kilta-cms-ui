@@ -1,25 +1,29 @@
 module Main exposing (..)
 
-import Html exposing (program)
-
 import Msgs exposing (Msg)
 import Models exposing (initialModel, Model, Flags, Info, Image)
 import Update exposing (update)
 import View exposing (view)
 import Commands exposing (fetchInfo, fetchNews, fetchSponsors)
 
+import Navigation exposing (Location)
+import Routing
+
 -- INIT
 
-init : Flags -> (Model, Cmd Msg)
-init flags =
-  ( initialModel flags
-  , Cmd.batch
-    [ fetchInfo flags.apiUrl
-    , fetchNews flags.apiUrl
-    , fetchSponsors flags.apiUrl
-    ]
-  )
-
+init : Flags -> Location -> (Model, Cmd Msg)
+init flags location =
+  let
+    currentRoute =
+      Routing.parseLocation location
+  in
+    ( initialModel flags currentRoute
+    , Cmd.batch
+      [ fetchInfo flags.apiUrl
+      , fetchNews flags.apiUrl
+      , fetchSponsors flags.apiUrl
+      ]
+    )
 
 -- SUBSCRIPTIONS
 
@@ -34,7 +38,7 @@ subscriptions model =
 
 main : Program Flags Model Msg
 main =
-  Html.programWithFlags
+  Navigation.programWithFlags Msgs.OnLocationChange
     { init = init
     , view = view
     , update = update

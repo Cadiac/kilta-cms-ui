@@ -1,13 +1,9 @@
 module Update exposing (..)
 
 import Msgs exposing (Msg)
-import Models exposing (Model, NewsModel, NewsItem)
+import Models exposing (Model)
 
-import RemoteData exposing (WebData)
-
-setNewsList : WebData (List NewsItem) -> NewsModel -> NewsModel
-setNewsList newsList news =
-    { news | list = newsList }
+import Routing exposing (parseLocation)
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -16,13 +12,18 @@ update msg model =
 
     Msgs.Increment -> ({ model | amount = model.amount + 1 }, Cmd.none)
 
+    Msgs.OnLocationChange location ->
+      let
+        newRoute =
+          parseLocation location
+      in
+        ( { model | route = newRoute }, Cmd.none )
+
     Msgs.OnFetchSponsors response ->
       ( { model | sponsors = response }, Cmd.none )
 
     Msgs.OnFetchNews response ->
-      ( { model | news = model.news
-          |> setNewsList response
-        }, Cmd.none )
+      ( { model | news = response }, Cmd.none )
 
     Msgs.OnFetchInfo response ->
       ( { model | info = response }, Cmd.none )

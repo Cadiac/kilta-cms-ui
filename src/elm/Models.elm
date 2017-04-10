@@ -43,11 +43,6 @@ type alias NewsItem =
   , authors : List String
   }
 
-type alias NewsModel =
-  { list : WebData (List NewsItem)
-  , selected : Maybe NewsId
-  }
-
 -- ROUTES
 
 
@@ -62,20 +57,19 @@ type Route
 
 type alias Model =
   { info : WebData Info
-  , news : NewsModel
+  , news : WebData (List NewsItem)
   , sponsors : WebData (List Sponsor)
   , amount : Int
   , config : Flags
+  , route : Route
   }
 
-initialModel : Flags -> Model
-initialModel flags =
+initialModel : Flags -> Route -> Model
+initialModel flags route =
   { info = RemoteData.Loading
-  , news =
-    { list = RemoteData.Loading
-    , selected = Nothing
-    }
+  , news = RemoteData.Loading
   , sponsors = RemoteData.Loading
   , amount = 0
   , config = flags
+  , route = route
   }
