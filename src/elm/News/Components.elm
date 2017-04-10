@@ -6,6 +6,7 @@ import Html.Attributes exposing (..)
 
 import RemoteData exposing (WebData)
 import Models exposing (NewsItem)
+import Routing exposing (newsStoryPath)
 
 maybeNewsList : WebData (List NewsItem) -> Html Msg
 maybeNewsList response =
@@ -26,13 +27,19 @@ maybeNewsList response =
 
 newsItem : NewsItem -> Html msg
 newsItem news =
-  article [] [
-    div [ class "heading" ] [
-      h2 [ class "subtitle is-4" ] [
-        text news.title
+  let
+    path =
+      newsStoryPath news.id
+  in
+    article [] [
+      div [ class "heading" ] [
+        a [ class "btn regular", href path ] [
+          h2 [ class "subtitle is-4" ] [
+            text news.title
+          ]
+        ]
+      ]
+      , div [ class "content" ] [
+        text news.text
       ]
     ]
-    , div [ class "content" ] [
-      text news.text
-    ]
-  ]

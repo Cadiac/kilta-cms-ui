@@ -4,6 +4,14 @@ import Navigation exposing (Location)
 import Models exposing (NewsId, Route(..))
 import UrlParser exposing (..)
 
+newsPath : String
+newsPath =
+  "#news"
+
+newsStoryPath : NewsId -> String
+newsStoryPath newsId =
+    "#news/" ++ toString newsId
+
 
 matchers : Parser (Route -> a) a
 matchers =
