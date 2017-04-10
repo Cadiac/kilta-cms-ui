@@ -9,7 +9,7 @@ matchers : Parser (Route -> a) a
 matchers =
     oneOf
         [ map IndexRoute top
-        , map NewsRoute (s "news" </> string)
+        , map NewsRoute (s "news" </> int)
         , map NewsListRoute (s "news")
         ]
 

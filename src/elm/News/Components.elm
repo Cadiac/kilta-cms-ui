@@ -1,4 +1,4 @@
-module Components.News exposing (view)
+module News.Components exposing (maybeNewsList, newsItem)
 
 import Msgs exposing (Msg)
 import Html exposing (..)
@@ -24,7 +24,7 @@ maybeNewsList response =
     RemoteData.Failure error ->
       text (toString error)
 
-newsItem : NewsItem -> Html Msg
+newsItem : NewsItem -> Html msg
 newsItem news =
   article [] [
     div [ class "heading" ] [
@@ -36,29 +36,3 @@ newsItem news =
       text news.text
     ]
   ]
-
-view : WebData (List NewsItem) -> Html Msg
-view response =
-  section [ class "box" ] [
-    div [ class "heading" ] [
-      h1 [ class "title is-3" ] [
-        text "Ajankohtaista"
-      ]
-    ]
-    , hr [][]
-    , maybeNewsList response
-  ]
-
--- CSS
-
-type alias Style =
-  List ( String, String )
-
-styles : { heading : Style }
-styles =
-  {
-    heading =
-      [ ( "display", "flex" )
-      , ( "justify-content", "space-around")
-      ]
-  }

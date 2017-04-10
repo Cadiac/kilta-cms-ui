@@ -8,7 +8,7 @@ import Models exposing (Model)
 
 import Components.Navbar
 import Components.Sponsors
-import Components.News
+import News.List
 
 
 view : Model -> Html Msg
@@ -18,7 +18,7 @@ view model =
     , section [ class "section" ] [
       div [ class "columns" ] [
         div [ class "column is-two-thirds"] [
-          Components.News.view model.news
+          News.List.view model.news.list
         ]
         , div [ class "column" ] [
           Components.Sponsors.view model.sponsors
