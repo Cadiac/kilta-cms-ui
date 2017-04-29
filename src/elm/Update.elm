@@ -24,25 +24,22 @@ update msg model =
       let
         newRoute =
           parseLocation location
-      in
-        case newRoute of
-          Models.IndexRoute ->
-            ( { model | route = newRoute }, Cmd.none )
-          Models.NewsListRoute ->
-            ( { model | route = newRoute }, Cmd.none )
-          Models.NewsRoute newsId ->
-            let
-              alreadyFetched =
-                Dict.member newsId model.news
-            in
-              if alreadyFetched then
-                ( { model | route = newRoute }, Cmd.none )
+        command =
+          case newRoute of
+            Models.IndexRoute ->
+              ( Cmd.none )
+            Models.NewsListRoute ->
+              ( Cmd.none )
+            Models.NewsRoute newsId ->
+              -- Check if we already have the news fetched
+              if Dict.member newsId model.news then
+                ( Cmd.none )
               else
-                ( { model | route = newRoute }
-                , (fetchSingleNewsStory model.config.apiUrl newsId)
-                )
-          Models.NotFoundRoute ->
-            ( { model | route = newRoute }, Cmd.none )
+                ( fetchSingleNewsStory model.config.apiUrl newsId )
+            Models.NotFoundRoute ->
+              ( Cmd.none )
+      in
+        ( { model | route = newRoute }, command )
 
 
     Msgs.OnFetchSponsors response ->
