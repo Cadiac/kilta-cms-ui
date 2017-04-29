@@ -2,6 +2,7 @@ module Update exposing (..)
 
 import Msgs exposing (Msg)
 import Models exposing (Model)
+import Navigation exposing (newUrl)
 
 import Routing exposing (parseLocation)
 
@@ -11,6 +12,9 @@ update msg model =
     Msgs.NoOp -> (model, Cmd.none)
 
     Msgs.Increment -> ({ model | amount = model.amount + 1 }, Cmd.none)
+
+    Msgs.ChangeLocation path ->
+      ( model, newUrl path )
 
     Msgs.OnLocationChange location ->
       let

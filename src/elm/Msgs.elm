@@ -7,6 +7,7 @@ import Models exposing ( Info, Sponsor, NewsItem )
 type Msg
   = NoOp
   | Increment
+  | ChangeLocation String
   | OnLocationChange Location
   | OnFetchSponsors (WebData (List Sponsor))
   | OnFetchInfo (WebData Info)

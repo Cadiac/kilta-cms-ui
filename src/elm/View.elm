@@ -33,7 +33,6 @@ page model =
     Models.NotFoundRoute ->
       notFoundView
 
-
 landingPage : Model -> Html Msg
 landingPage model =
   section [ class "section" ] [

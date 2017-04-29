@@ -8,6 +8,8 @@ import RemoteData exposing (WebData)
 import Models exposing (NewsItem)
 import Routing exposing (newsStoryPath)
 
+import Utils exposing (onLinkClick)
+
 maybeNewsList : WebData (List NewsItem) -> Html Msg
 maybeNewsList response =
   case response of
@@ -25,7 +27,7 @@ maybeNewsList response =
     RemoteData.Failure error ->
       text (toString error)
 
-newsItem : NewsItem -> Html msg
+newsItem : NewsItem -> Html Msg
 newsItem news =
   let
     path =
@@ -33,7 +35,7 @@ newsItem news =
   in
     article [] [
       div [ class "heading" ] [
-        a [ class "btn regular", href path ] [
+        a [ class "btn regular", href path, onLinkClick (Msgs.ChangeLocation path)] [
           h2 [ class "subtitle is-4" ] [
             text news.title
           ]
