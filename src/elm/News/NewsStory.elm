@@ -3,6 +3,7 @@ module News.NewsStory exposing (view)
 import Msgs exposing (Msg)
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Dict exposing (Dict)
 
 import RemoteData exposing (WebData)
 import Models exposing (NewsItem, NewsId, Model)
@@ -10,8 +11,8 @@ import News.Components
 
 import Components.Sponsors
 
-maybeNewsContent : WebData (List NewsItem) -> NewsId -> Html Msg
-maybeNewsContent response newsId =
+maybeNewsContent : WebData (NewsItem) -> Html Msg
+maybeNewsContent response =
   case response of
     RemoteData.NotAsked ->
       text ""
@@ -19,21 +20,10 @@ maybeNewsContent response newsId =
     RemoteData.Loading ->
       text "Loading..."
 
-    RemoteData.Success news ->
-      let
-        maybeNewsStory =
-          news
-            |> List.filter (\newsStory -> newsStory.id == newsId)
-            |> List.head
-      in
-        case maybeNewsStory of
-          Just newsStory ->
-            section [ class "section" ] [
-              News.Components.newsItem newsStory
-            ]
-
-          Nothing ->
-            notFoundView
+    RemoteData.Success newsStory ->
+      section [ class "section" ] [
+        News.Components.newsItem newsStory
+      ]
 
     RemoteData.Failure error ->
       text (toString error)
@@ -44,7 +34,10 @@ view model newsId =
     section [ class "section" ] [
       div [ class "columns" ] [
         div [ class "column is-two-thirds"] [
-          maybeNewsContent model.news newsId
+          maybeNewsContent (
+            Dict.get newsId model.news
+              |> Maybe.withDefault RemoteData.NotAsked
+          )
         ]
         , div [ class "column" ] [
           Components.Sponsors.view model.sponsors

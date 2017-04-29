@@ -4,6 +4,10 @@ import Msgs exposing (Msg)
 import Models exposing (Model)
 import Navigation exposing (newUrl)
 
+import Commands exposing (fetchSingleNewsStory)
+
+import Dict exposing (Dict)
+
 import Routing exposing (parseLocation)
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -21,13 +25,34 @@ update msg model =
         newRoute =
           parseLocation location
       in
-        ( { model | route = newRoute }, Cmd.none )
+        case newRoute of
+          Models.IndexRoute ->
+            ( { model | route = newRoute }, Cmd.none )
+          Models.NewsListRoute ->
+            ( { model | route = newRoute }, Cmd.none )
+          Models.NewsRoute newsId ->
+            let
+              alreadyFetched =
+                Dict.member newsId model.news
+            in
+              if alreadyFetched then
+                ( { model | route = newRoute }, Cmd.none )
+              else
+                ( { model | route = newRoute }
+                , (fetchSingleNewsStory model.config.apiUrl newsId)
+                )
+          Models.NotFoundRoute ->
+            ( { model | route = newRoute }, Cmd.none )
+
 
     Msgs.OnFetchSponsors response ->
       ( { model | sponsors = response }, Cmd.none )
 
-    Msgs.OnFetchNews response ->
-      ( { model | news = response }, Cmd.none )
+    Msgs.OnFetchNewsList response ->
+      ( { model | newsList = response }, Cmd.none )
+
+    Msgs.OnFetchSingleNewsStory newsId response ->
+      ( { model | news = Dict.insert newsId (response) model.news }, Cmd.none )
 
     Msgs.OnFetchInfo response ->
       ( { model | info = response }, Cmd.none )

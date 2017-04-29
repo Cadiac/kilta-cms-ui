@@ -1,5 +1,6 @@
 module Models exposing (..)
 
+import Dict exposing (Dict)
 import RemoteData exposing (WebData)
 
 type alias Image = {
@@ -57,7 +58,8 @@ type Route
 
 type alias Model =
   { info : WebData Info
-  , news : WebData (List NewsItem)
+  , news : Dict NewsId (WebData NewsItem)
+  , newsList : WebData (List NewsItem)
   , sponsors : WebData (List Sponsor)
   , amount : Int
   , config : Flags
@@ -67,7 +69,8 @@ type alias Model =
 initialModel : Flags -> Route -> Model
 initialModel flags route =
   { info = RemoteData.Loading
-  , news = RemoteData.Loading
+  , news = Dict.empty
+  , newsList = RemoteData.Loading
   , sponsors = RemoteData.Loading
   , amount = 0
   , config = flags

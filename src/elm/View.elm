@@ -25,7 +25,7 @@ page model =
       landingPage model
 
     Models.NewsListRoute ->
-      News.List.view model.news
+      News.List.view model.newsList
 
     Models.NewsRoute id ->
       News.NewsStory.view model id
@@ -38,7 +38,7 @@ landingPage model =
   section [ class "section" ] [
     div [ class "columns" ] [
       div [ class "column is-two-thirds"] [
-        News.List.view model.news
+        News.List.view model.newsList
       ]
       , div [ class "column" ] [
         Components.Sponsors.view model.sponsors

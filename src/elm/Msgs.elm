@@ -2,7 +2,7 @@ module Msgs exposing (..)
 
 import Navigation exposing ( Location )
 import RemoteData exposing ( WebData )
-import Models exposing ( Info, Sponsor, NewsItem )
+import Models exposing ( Info, Sponsor, NewsItem, NewsId )
 
 type Msg
   = NoOp
@@ -11,4 +11,5 @@ type Msg
   | OnLocationChange Location
   | OnFetchSponsors (WebData (List Sponsor))
   | OnFetchInfo (WebData Info)
-  | OnFetchNews (WebData (List NewsItem))
+  | OnFetchNewsList (WebData (List NewsItem))
+  | OnFetchSingleNewsStory NewsId (WebData NewsItem)
