@@ -2,16 +2,18 @@ module Msgs exposing (..)
 
 import Navigation exposing ( Location )
 import RemoteData exposing ( WebData )
-import Models exposing ( Info, Sponsor, NewsItem, NewsId, LoginForm )
+import Models exposing (..)
 import Http
 
 type Msg
   = NoOp
   | Login
   | Auth (Result Http.Error String)
-  | FormInput LoginForm String
+  | LoginFormInput LoginForm String
+  | ProfileFormInput ProfileForm String
   | ChangeLocation String
   | OnLocationChange Location
+  | OnFetchProfile (WebData Profile)
   | OnFetchSponsors (WebData (List Sponsor))
   | OnFetchInfo (WebData Info)
   | OnFetchNewsList (WebData (List NewsItem))

@@ -40,14 +40,14 @@ update msg model =
           in
             case tokenResult of
               Result.Ok token ->
-                ( { model | token = Just token }, Cmd.none )
+                ( { model | token = Just tokenString, decodedToken = Just token }, Cmd.none )
               Result.Err err ->
-                ( { model | token = Nothing, error = toString err }, Cmd.none )
+                ( { model | token = Nothing, decodedToken = Nothing, error = toString err }, Cmd.none )
 
         Result.Err err ->
-          ( { model | token = Nothing, error = toString err }, Cmd.none )
+          ( { model | token = Nothing, decodedToken = Nothing, error = toString err }, Cmd.none )
 
-    Msgs.FormInput inputId val ->
+    Msgs.LoginFormInput inputId val ->
       case inputId of
         Models.Username ->
           { model | username = val } ! []
@@ -55,8 +55,25 @@ update msg model =
         Models.Password ->
           { model | password = val } ! []
 
+    Msgs.ProfileFormInput inputId val ->
+      case inputId of
+        Models.FirstName ->
+          { model | username = val } ! []
+
+        Models.LastName ->
+          { model | username = val } ! []
+
+        Models.Email ->
+          { model | username = val } ! []
+
+        Models.Phone ->
+          { model | username = val } ! []
+
     Msgs.OnFetchSponsors response ->
       ( { model | sponsors = response }, Cmd.none )
+
+    Msgs.OnFetchProfile response ->
+      ( { model | profile = response}, Cmd.none )
 
     Msgs.OnFetchNewsList response ->
       ( { model | newsList = response }, Cmd.none )

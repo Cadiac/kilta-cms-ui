@@ -66,3 +66,13 @@ submitCredentials model =
       ]
       |> authenticate authUrl tokenStringDecoder
       |> Http.send Msgs.Auth
+
+fetchProfile : String -> String -> Cmd Msg
+fetchProfile apiUrl token =
+  let
+    url =
+      apiUrl ++ "/api/v1/members/me"
+  in
+    Jwt.get token url profileDecoder
+      |> RemoteData.sendRequest
+      |> Cmd.map Msgs.OnFetchProfile

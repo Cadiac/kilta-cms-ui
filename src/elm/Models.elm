@@ -21,15 +21,8 @@ type alias Info =
   , jumbotron: List JumbotronImage
   }
 
-type alias General =
-  { info : WebData Info
-  , token : Maybe JwtToken
-  }
-
-
 type alias Flags =
   { apiUrl: String }
-
 
 type alias Sponsor =
   { name : String
@@ -54,6 +47,12 @@ type LoginForm
     = Username
     | Password
 
+type ProfileForm
+    = FirstName
+    | LastName
+    | Email
+    | Phone
+
 type alias JwtToken =
   { id : Int
   , role : String
@@ -62,12 +61,22 @@ type alias JwtToken =
   , expiry : Int
   }
 
+type alias Profile =
+  { username : String
+  , firstName : String
+  , lastName : String
+  , email : String
+  , phone : String
+  , role : String
+  }
+
 -- ROUTES
 
 
 type Route
   = IndexRoute
   | LoginRoute
+  | ProfileRoute
   | NewsListRoute
   | NewsRoute NewsId
   | NotFoundRoute
@@ -83,7 +92,9 @@ type alias Model =
   , amount : Int
   , config : Flags
   , route : Route
-  , token : Maybe JwtToken
+  , token : Maybe String
+  , decodedToken : Maybe JwtToken
+  , profile : WebData Profile
   , username : String
   , password : String
   , error : String
@@ -91,14 +102,16 @@ type alias Model =
 
 initialModel : Flags -> Route -> Model
 initialModel flags route =
-  { info = RemoteData.Loading
+  { info = RemoteData.NotAsked
   , news = Dict.empty
-  , newsList = RemoteData.Loading
-  , sponsors = RemoteData.Loading
+  , newsList = RemoteData.NotAsked
+  , sponsors = RemoteData.NotAsked
   , amount = 0
   , config = flags
   , route = route
   , token = Nothing
+  , decodedToken = Nothing
+  , profile = RemoteData.NotAsked
   , username = ""
   , password = ""
   , error = ""

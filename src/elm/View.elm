@@ -4,23 +4,23 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 
 import Msgs exposing (Msg)
-import Models exposing (Model, General)
+import Models exposing (Model)
 
 import Common.Navbar
 import Common.Sponsors
-import Login.LoginForm
+
+import User.LoginForm
+import User.ProfilePage
+
 import News.List
 import News.NewsStory
 
 view : Model -> Html Msg
 view model =
-  let
-    data = General model.info Nothing
-  in
-    div []
-      [ Common.Navbar.view data
-      , page model
-      ]
+  div []
+    [ Common.Navbar.view model
+    , page model
+    ]
 
 page : Model -> Html Msg
 page model =
@@ -29,7 +29,10 @@ page model =
       mainLayout model (landingPage model)
 
     Models.LoginRoute ->
-      mainLayout model (Login.LoginForm.view model)
+      mainLayout model (User.LoginForm.view model)
+
+    Models.ProfileRoute ->
+      mainLayout model (User.ProfilePage.view model)
 
     Models.NewsListRoute ->
       mainLayout model (News.List.view model.newsList)

@@ -12,6 +12,10 @@ loginPath : String
 loginPath =
   "login"
 
+profilePath : String
+profilePath =
+  "profile"
+
 newsPath : String
 newsPath =
   "news"
@@ -36,6 +40,8 @@ fetchLocationData location model =
         ( Cmd.batch baseCmds )
       Models.LoginRoute ->
         ( Cmd.batch baseCmds )
+      Models.ProfileRoute ->
+        ( Cmd.batch ( fetchProfile model.config.apiUrl (Maybe.withDefault "" model.token) :: baseCmds ) )
       Models.NewsListRoute ->
         ( Cmd.batch baseCmds )
       Models.NewsRoute newsId ->
@@ -55,6 +61,7 @@ matchers =
     , map NewsRoute (s "news" </> int)
     , map NewsListRoute (s "news")
     , map LoginRoute (s "login")
+    , map ProfileRoute (s "profile")
     ]
 
 

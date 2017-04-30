@@ -65,3 +65,13 @@ tokenDecoder =
     |> required "username" string
     |> required "iat" int
     |> required "exp" int
+
+profileDecoder : Decoder Profile
+profileDecoder =
+  decode Profile
+    |> required "username" string
+    |> required "first_name" string
+    |> required "last_name" string
+    |> required "email" string
+    |> required "phone" string
+    |> required "role" string

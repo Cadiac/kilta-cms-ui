@@ -1,4 +1,4 @@
-module Login.LoginForm exposing (view)
+module User.LoginForm exposing (view)
 
 import Msgs exposing (Msg)
 import Html exposing (..)
@@ -24,7 +24,7 @@ view model =
               [ for "username" ]
               [ text "Tunnus" ]
             , input
-              [ onInput (Msgs.FormInput Models.Username)
+              [ onInput (Msgs.LoginFormInput Models.Username)
               , value model.username
               ]
               []
@@ -35,7 +35,7 @@ view model =
                 [ for "password" ]
                 [ text "Salasana" ]
               , input
-                [ onInput (Msgs.FormInput Models.Password)
+                [ onInput (Msgs.LoginFormInput Models.Password)
                 , value model.password
                 ]
                 []
