@@ -8,6 +8,7 @@ import Models exposing (Model)
 
 import Components.Navbar
 import Components.Sponsors
+import Login.LoginForm
 import News.List
 import News.NewsStory
 
@@ -23,6 +24,9 @@ page model =
   case model.route of
     Models.IndexRoute ->
       landingPage model
+
+    Models.LoginRoute ->
+      Login.LoginForm.view model
 
     Models.NewsListRoute ->
       News.List.view model.newsList

@@ -8,6 +8,9 @@ import Models exposing ( NewsId, Model, Route(..) )
 import Commands exposing (..)
 import UrlParser exposing (..)
 
+loginPath : String
+loginPath =
+  "login"
 
 newsPath : String
 newsPath =
@@ -31,6 +34,8 @@ fetchLocationData location model =
       -- the requests we've made already, but works when user arrives from direct url.
       Models.IndexRoute ->
         ( Cmd.batch baseCmds )
+      Models.LoginRoute ->
+        ( Cmd.batch baseCmds )
       Models.NewsListRoute ->
         ( Cmd.batch baseCmds )
       Models.NewsRoute newsId ->
@@ -49,6 +54,7 @@ matchers =
     [ map IndexRoute top
     , map NewsRoute (s "news" </> int)
     , map NewsListRoute (s "news")
+    , map LoginRoute (s "login")
     ]
 
 

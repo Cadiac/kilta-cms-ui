@@ -60,7 +60,7 @@ tokenStringDecoder =
 tokenDecoder : Decoder JwtToken
 tokenDecoder =
   decode JwtToken
-    |> required "id" string
+    |> required "id" int
     |> required "role" string
     |> required "username" string
     |> required "iat" int

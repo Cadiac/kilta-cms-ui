@@ -49,7 +49,7 @@ type LoginForm
     | Password
 
 type alias JwtToken =
-  { id : String
+  { id : Int
   , role : String
   , username : String
   , iat : Int
@@ -61,6 +61,7 @@ type alias JwtToken =
 
 type Route
   = IndexRoute
+  | LoginRoute
   | NewsListRoute
   | NewsRoute NewsId
   | NotFoundRoute
