@@ -3,6 +3,7 @@ module Update exposing (..)
 import Msgs exposing (Msg)
 import Models exposing (Model)
 import Navigation exposing (newUrl)
+import Commands exposing (submitCredentials)
 
 import Dict exposing (Dict)
 
@@ -12,8 +13,6 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
   case msg of
     Msgs.NoOp -> (model, Cmd.none)
-
-    Msgs.Increment -> ({ model | amount = model.amount + 1 }, Cmd.none)
 
     Msgs.ChangeLocation path ->
       ( model, newUrl path )
@@ -27,6 +26,24 @@ update msg model =
       in
         ( { model | route = newRoute }, command )
 
+    Msgs.Login ->
+      model ! [ submitCredentials model ]
+
+    Msgs.Auth res ->
+      case res of
+        Result.Ok token ->
+            ( { model | token = Just token }, Cmd.none )
+
+        Result.Err err ->
+            ( { model | error = toString err }, Cmd.none )
+
+    Msgs.FormInput inputId val ->
+      case inputId of
+        Models.Username ->
+          { model | username = val } ! []
+
+        Models.Password ->
+          { model | password = val } ! []
 
     Msgs.OnFetchSponsors response ->
       ( { model | sponsors = response }, Cmd.none )

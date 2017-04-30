@@ -44,6 +44,18 @@ type alias NewsItem =
   , authors : List String
   }
 
+type LoginForm
+    = Username
+    | Password
+
+type alias JwtToken =
+  { id : String
+  , role : String
+  , username : String
+  , iat : Int
+  , expiry : Int
+  }
+
 -- ROUTES
 
 
@@ -64,6 +76,10 @@ type alias Model =
   , amount : Int
   , config : Flags
   , route : Route
+  , token : Maybe String
+  , username : String
+  , password : String
+  , error : String
   }
 
 initialModel : Flags -> Route -> Model
@@ -75,4 +91,8 @@ initialModel flags route =
   , amount = 0
   , config = flags
   , route = route
+  , token = Nothing
+  , username = ""
+  , password = ""
+  , error = ""
   }

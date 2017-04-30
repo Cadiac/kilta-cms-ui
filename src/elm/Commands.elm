@@ -2,11 +2,14 @@ module Commands exposing (..)
 
 import Http
 
-import Json.Decode as Decode
-import Json.Decode.Pipeline exposing (decode, required, requiredAt)
+import Jwt exposing (..)
+
 import Msgs exposing (Msg)
 import Models exposing (..)
 import RemoteData
+
+import Decoders exposing (..)
+import Json.Encode as Encode exposing (Value)
 
 -- COMMANDS
 
@@ -51,54 +54,15 @@ fetchSingleNewsStory apiUrl newsId =
       |> RemoteData.sendRequest
       |> Cmd.map (Msgs.OnFetchSingleNewsStory newsId)
 
-
--- DECODERS
-
-
-sponsorsDecoder : Decode.Decoder (List Sponsor)
-sponsorsDecoder =
-  Decode.list sponsorDecoder
-
-sponsorDecoder : Decode.Decoder Sponsor
-sponsorDecoder =
-  decode Sponsor
-    |> required "name" Decode.string
-    |> required "website" Decode.string
-    |> requiredAt ["logo", "url"] Decode.string
-
-infoDecoder : Decode.Decoder Info
-infoDecoder =
-  decode Info
-    |> required "main_title" Decode.string
-    |> required "introduction_text" Decode.string
-    |> required "guild_name" Decode.string
-    |> required "guild_logo" imageDecoder
-    |> required "jumbotron_images" (Decode.list jumbotronDecoder)
-
-imageDecoder : Decode.Decoder Image
-imageDecoder =
-  decode Image
-    |> required "url" Decode.string
-    |> required "thumbnail" Decode.string
-
-jumbotronDecoder : Decode.Decoder JumbotronImage
-jumbotronDecoder =
-  decode JumbotronImage
-    |> required "title" Decode.string
-    |> required "url" Decode.string
-
-newsDecoder : Decode.Decoder (List NewsItem)
-newsDecoder =
-  Decode.list newsItemDecoder
-
-newsItemDecoder : Decode.Decoder NewsItem
-newsItemDecoder =
-  decode NewsItem
-    |> required "id" Decode.int
-    |> required "title" Decode.string
-    |> required "text" Decode.string
-    |> required "slug" Decode.string
-    |> required "created_on" Decode.string
-    |> required "tags" Decode.string
-    |> required "news_category" Decode.int
-    |> required "authors" (Decode.list Decode.string)
+submitCredentials : Model -> Cmd Msg
+submitCredentials model =
+  let
+    authUrl =
+      model.config.apiUrl ++ "/api/v1/auth/login"
+  in
+    Encode.object
+      [ ( "username", Encode.string model.username )
+      , ( "password", Encode.string model.password )
+      ]
+      |> authenticate authUrl tokenStringDecoder
+      |> Http.send Msgs.Auth
