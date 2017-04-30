@@ -5,11 +5,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 
-import Jwt exposing (..)
-
 import Models exposing (LoginForm, Model)
-
-import Decoders exposing (tokenDecoder)
 
 view : Model -> Html Msg
 view model =
@@ -54,13 +50,9 @@ view model =
       Nothing ->
           text ""
 
-      Just tokenString ->
-        let
-          token =
-            decodeToken tokenDecoder tokenString
-        in
-          div []
-            [ p []
-              [ text <| toString token ]
-            ]
+      Just token ->
+        div []
+          [ p []
+            [ text <| toString token ]
+          ]
     ]

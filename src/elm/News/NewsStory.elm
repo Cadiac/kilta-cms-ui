@@ -9,8 +9,6 @@ import RemoteData exposing (WebData)
 import Models exposing (NewsItem, NewsId, Model)
 import News.Components
 
-import Components.Sponsors
-
 maybeNewsContent : WebData (NewsItem) -> Html Msg
 maybeNewsContent response =
   case response of
@@ -31,19 +29,10 @@ maybeNewsContent response =
 view : Model -> NewsId -> Html Msg
 view model newsId =
   div [] [
-    section [ class "section" ] [
-      div [ class "columns" ] [
-        div [ class "column is-two-thirds"] [
-          maybeNewsContent (
-            Dict.get newsId model.news
-              |> Maybe.withDefault RemoteData.NotAsked
-          )
-        ]
-        , div [ class "column" ] [
-          Components.Sponsors.view model.sponsors
-        ]
-      ]
-    ]
+    maybeNewsContent (
+      Dict.get newsId model.news
+        |> Maybe.withDefault RemoteData.NotAsked
+    )
   ]
 
 notFoundView : Html msg

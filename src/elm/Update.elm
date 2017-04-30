@@ -4,8 +4,10 @@ import Msgs exposing (Msg)
 import Models exposing (Model)
 import Navigation exposing (newUrl)
 import Commands exposing (submitCredentials)
+import Decoders exposing (tokenDecoder)
 
 import Dict exposing (Dict)
+import Jwt exposing (..)
 
 import Routing exposing (parseLocation, fetchLocationData)
 
@@ -31,11 +33,19 @@ update msg model =
 
     Msgs.Auth res ->
       case res of
-        Result.Ok token ->
-            ( { model | token = Just token }, Cmd.none )
+        Result.Ok tokenString ->
+          let
+            tokenResult =
+              decodeToken tokenDecoder tokenString
+          in
+            case tokenResult of
+              Result.Ok token ->
+                ( { model | token = Just token }, Cmd.none )
+              Result.Err err ->
+                ( { model | token = Nothing, error = toString err }, Cmd.none )
 
         Result.Err err ->
-            ( { model | error = toString err }, Cmd.none )
+          ( { model | token = Nothing, error = toString err }, Cmd.none )
 
     Msgs.FormInput inputId val ->
       case inputId of

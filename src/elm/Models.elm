@@ -21,6 +21,12 @@ type alias Info =
   , jumbotron: List JumbotronImage
   }
 
+type alias General =
+  { info : WebData Info
+  , token : Maybe JwtToken
+  }
+
+
 type alias Flags =
   { apiUrl: String }
 
@@ -77,7 +83,7 @@ type alias Model =
   , amount : Int
   , config : Flags
   , route : Route
-  , token : Maybe String
+  , token : Maybe JwtToken
   , username : String
   , password : String
   , error : String

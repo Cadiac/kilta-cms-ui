@@ -1,4 +1,4 @@
-module Components.Sponsors exposing (view)
+module Common.Sponsors exposing (view)
 
 import Msgs exposing (Msg)
 import Html exposing (..)

@@ -4,51 +4,59 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 
 import Msgs exposing (Msg)
-import Models exposing (Model)
+import Models exposing (Model, General)
 
-import Components.Navbar
-import Components.Sponsors
+import Common.Navbar
+import Common.Sponsors
 import Login.LoginForm
 import News.List
 import News.NewsStory
 
 view : Model -> Html Msg
 view model =
-  div []
-    [ Components.Navbar.view model.info
-    , page model
-    ]
+  let
+    data = General model.info Nothing
+  in
+    div []
+      [ Common.Navbar.view data
+      , page model
+      ]
 
 page : Model -> Html Msg
 page model =
   case model.route of
     Models.IndexRoute ->
-      landingPage model
+      mainLayout model (landingPage model)
 
     Models.LoginRoute ->
-      Login.LoginForm.view model
+      mainLayout model (Login.LoginForm.view model)
 
     Models.NewsListRoute ->
-      News.List.view model.newsList
+      mainLayout model (News.List.view model.newsList)
 
     Models.NewsRoute id ->
-      News.NewsStory.view model id
+      mainLayout model (News.NewsStory.view model id)
 
     Models.NotFoundRoute ->
-      notFoundView
+      mainLayout model notFoundView
 
 landingPage : Model -> Html Msg
 landingPage model =
+  News.List.view model.newsList
+
+mainLayout : Model -> Html Msg -> Html Msg
+mainLayout model content =
   section [ class "section" ] [
     div [ class "columns" ] [
       div [ class "column is-two-thirds"] [
-        News.List.view model.newsList
+        content
       ]
       , div [ class "column" ] [
-        Components.Sponsors.view model.sponsors
+        Common.Sponsors.view model.sponsors
       ]
     ]
   ]
+
 
 notFoundView : Html msg
 notFoundView =
