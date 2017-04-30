@@ -4,9 +4,8 @@ import Msgs exposing (Msg)
 import Models exposing (initialModel, Model, Flags, Info, Image)
 import Update exposing (update)
 import View exposing (view)
-import Commands exposing (fetchInfo, fetchNewsList, fetchSponsors)
 
-import Navigation exposing (Location)
+import Navigation exposing ( Location )
 import Routing
 
 -- INIT
@@ -16,13 +15,11 @@ init flags location =
   let
     currentRoute =
       Routing.parseLocation location
+    initial =
+      initialModel flags currentRoute
   in
-    ( initialModel flags currentRoute
-    , Cmd.batch
-      [ fetchInfo flags.apiUrl
-      , fetchNewsList flags.apiUrl
-      , fetchSponsors flags.apiUrl
-      ]
+    ( initial
+    , Routing.fetchLocationData currentRoute initial
     )
 
 -- SUBSCRIPTIONS

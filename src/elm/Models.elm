@@ -48,10 +48,10 @@ type alias NewsItem =
 
 
 type Route
-    = IndexRoute
-    | NewsListRoute
-    | NewsRoute NewsId
-    | NotFoundRoute
+  = IndexRoute
+  | NewsListRoute
+  | NewsRoute NewsId
+  | NotFoundRoute
 
 -- MODEL
 

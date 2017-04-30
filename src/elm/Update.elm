@@ -4,11 +4,9 @@ import Msgs exposing (Msg)
 import Models exposing (Model)
 import Navigation exposing (newUrl)
 
-import Commands exposing (fetchSingleNewsStory)
-
 import Dict exposing (Dict)
 
-import Routing exposing (parseLocation)
+import Routing exposing (parseLocation, fetchLocationData)
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -25,19 +23,7 @@ update msg model =
         newRoute =
           parseLocation location
         command =
-          case newRoute of
-            Models.IndexRoute ->
-              ( Cmd.none )
-            Models.NewsListRoute ->
-              ( Cmd.none )
-            Models.NewsRoute newsId ->
-              -- Check if we already have the news fetched
-              if Dict.member newsId model.news then
-                ( Cmd.none )
-              else
-                ( fetchSingleNewsStory model.config.apiUrl newsId )
-            Models.NotFoundRoute ->
-              ( Cmd.none )
+          fetchLocationData newRoute model
       in
         ( { model | route = newRoute }, command )
 
