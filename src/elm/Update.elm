@@ -3,7 +3,7 @@ module Update exposing (..)
 import Msgs exposing (Msg)
 import Models exposing (Model)
 import Navigation exposing (newUrl)
-import Commands exposing (submitCredentials, saveToken)
+import Commands exposing (submitCredentials, saveToken, clearToken)
 import Decoders exposing (maybeDecodeToken)
 
 import Dict exposing (Dict)
@@ -29,6 +29,9 @@ update msg model =
 
     Msgs.Login ->
       model ! [ submitCredentials model ]
+
+    Msgs.Logout ->
+      ( { model | token = "", decodedToken = Nothing }, clearToken () )
 
     Msgs.Auth res ->
       case res of

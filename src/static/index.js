@@ -13,6 +13,9 @@ const app = Elm.Main.embed( document.getElementById( 'main' ), {
 });
 
 app.ports.saveToken.subscribe((token) => {
-  console.log('Saving token', token);
   localStorage.setItem('authorization_token', token);
+});
+
+app.ports.clearToken.subscribe(() => {
+  localStorage.removeItem('authorization_token');
 });

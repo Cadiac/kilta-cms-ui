@@ -15,7 +15,7 @@ import Json.Encode as Encode exposing (Value)
 -- PORTS
 
 port saveToken : String -> Cmd msg
-
+port clearToken : () -> Cmd msg
 
 -- COMMANDS
 

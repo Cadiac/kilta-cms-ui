@@ -8,6 +8,7 @@ import Http
 type Msg
   = NoOp
   | Login
+  | Logout
   | Auth (Result Http.Error String)
   | LoginFormInput LoginForm String
   | ProfileFormInput ProfileForm String
