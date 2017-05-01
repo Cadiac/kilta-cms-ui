@@ -2,6 +2,7 @@ module Common.Navbar exposing (view)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (onClick)
 
 import Msgs exposing (Msg)
 import Models exposing (Info, Model)
@@ -42,6 +43,16 @@ loginButton =
     ]
   ]
 
+logoutButton : Html Msg
+logoutButton =
+  a [ class "button is-primary is-inverted"
+    , onClick (Msgs.Logout)
+    ] [
+    span [ class "icon" ][
+      i [ class "fa fa-sign-out" ] []
+    ]
+  ]
+
 profileButton : String -> Html Msg
 profileButton username =
  a [ class "button is-primary is-inverted"
@@ -67,7 +78,10 @@ view model =
     , div [ class "nav-right nav-menu" ] [
       case model.decodedToken of
         Just decoded ->
-          profileButton decoded.username
+          div [] [
+            profileButton decoded.username,
+            logoutButton
+          ]
         Nothing ->
           loginButton
     ]

@@ -28,10 +28,16 @@ update msg model =
         ( { model | route = newRoute }, command )
 
     Msgs.Login ->
-      model ! [ submitCredentials model ]
+      model !
+        [ submitCredentials model
+        , newUrl "/"
+        ]
 
     Msgs.Logout ->
-      ( { model | token = "", decodedToken = Nothing }, clearToken () )
+      { model | token = "", decodedToken = Nothing } !
+        [ clearToken ()
+        , newUrl "/"
+        ]
 
     Msgs.Auth res ->
       case res of
