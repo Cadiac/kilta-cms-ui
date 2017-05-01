@@ -41,7 +41,7 @@ fetchLocationData location model =
       Models.LoginRoute ->
         ( Cmd.batch baseCmds )
       Models.ProfileRoute ->
-        ( Cmd.batch ( fetchProfile model.config.apiUrl (Maybe.withDefault "" model.token) :: baseCmds ) )
+        ( Cmd.batch ( fetchProfile model.config.apiUrl model.token :: baseCmds ) )
       Models.NewsListRoute ->
         ( Cmd.batch baseCmds )
       Models.NewsRoute newsId ->

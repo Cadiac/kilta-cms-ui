@@ -1,7 +1,8 @@
 module Main exposing (..)
 
 import Msgs exposing (Msg)
-import Models exposing (initialModel, Model, Flags, Info, Image)
+import Models exposing (Model, Flags, Info, Image)
+import Init exposing (initialModel)
 import Update exposing (update)
 import View exposing (view)
 

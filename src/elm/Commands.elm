@@ -1,4 +1,4 @@
-module Commands exposing (..)
+port module Commands exposing (..)
 
 import Http
 
@@ -10,6 +10,12 @@ import RemoteData
 
 import Decoders exposing (..)
 import Json.Encode as Encode exposing (Value)
+
+
+-- PORTS
+
+port saveToken : String -> Cmd msg
+
 
 -- COMMANDS
 

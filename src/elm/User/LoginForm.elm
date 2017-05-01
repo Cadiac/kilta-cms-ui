@@ -46,13 +46,8 @@ view model =
           ]
         ]
       ]
-    , case model.token of
-      Nothing ->
-          text ""
-
-      Just token ->
-        div []
-          [ p []
-            [ text <| toString token ]
-          ]
+    , div []
+      [ p []
+        [ text model.token ]
+      ]
     ]

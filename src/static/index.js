@@ -2,8 +2,17 @@
 require( './styles/main.scss' );
 
 // inject bundled Elm app into div#main
-var Elm = require( '../elm/Main' );
+const Elm = require( '../elm/Main' );
 
-Elm.Main.embed( document.getElementById( 'main' ), {
+// Get authorization_token from localstorage if set
+const token = localStorage.getItem('authorization_token');
+
+const app = Elm.Main.embed( document.getElementById( 'main' ), {
   apiUrl: process.env.API_URL,
+  token: token || '',
+});
+
+app.ports.saveToken.subscribe((token) => {
+  console.log('Saving token', token);
+  localStorage.setItem('authorization_token', token);
 });

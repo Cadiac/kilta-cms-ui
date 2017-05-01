@@ -16,13 +16,15 @@ type alias JumbotronImage = {
 type alias Info =
   { title : String
   , introduction : String
-  , name: String
-  , logo: Image
-  , jumbotron: List JumbotronImage
+  , name : String
+  , logo : Image
+  , jumbotron : List JumbotronImage
   }
 
 type alias Flags =
-  { apiUrl: String }
+  { apiUrl : String
+  , token : String
+  }
 
 type alias Sponsor =
   { name : String
@@ -92,27 +94,10 @@ type alias Model =
   , amount : Int
   , config : Flags
   , route : Route
-  , token : Maybe String
+  , token : String
   , decodedToken : Maybe JwtToken
   , profile : WebData Profile
   , username : String
   , password : String
   , error : String
-  }
-
-initialModel : Flags -> Route -> Model
-initialModel flags route =
-  { info = RemoteData.NotAsked
-  , news = Dict.empty
-  , newsList = RemoteData.NotAsked
-  , sponsors = RemoteData.NotAsked
-  , amount = 0
-  , config = flags
-  , route = route
-  , token = Nothing
-  , decodedToken = Nothing
-  , profile = RemoteData.NotAsked
-  , username = ""
-  , password = ""
-  , error = ""
   }

@@ -3,6 +3,8 @@ module Decoders exposing (..)
 import Json.Decode as Decode exposing (..)
 import Json.Decode.Pipeline exposing (decode, required, requiredAt)
 
+import Jwt exposing (decodeToken)
+
 import Models exposing (..)
 
 sponsorsDecoder : Decoder (List Sponsor)
@@ -65,6 +67,10 @@ tokenDecoder =
     |> required "username" string
     |> required "iat" int
     |> required "exp" int
+
+maybeDecodeToken : String -> Maybe JwtToken
+maybeDecodeToken tokenString =
+  Result.toMaybe (decodeToken tokenDecoder tokenString)
 
 profileDecoder : Decoder Profile
 profileDecoder =
