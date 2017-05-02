@@ -39,6 +39,26 @@ jumbotronDecoder =
     |> required "title" string
     |> required "url" string
 
+footerLinkDecoder : Decoder FooterLink
+footerLinkDecoder =
+  decode FooterLink
+    |> required "title" string
+    |> required "link" string
+
+socialMediaButtonDecoder : Decoder SocialMediaButton
+socialMediaButtonDecoder =
+  decode SocialMediaButton
+    |> required "name" string
+    |> required "link" string
+    |> required "logo" imageDecoder
+
+footerDecoder : Decoder Footer
+footerDecoder =
+  decode Footer
+    |> required "contact_info" string
+    |> required "other_links" (list footerLinkDecoder)
+    |> required "social_media_buttons" (list socialMediaButtonDecoder)
+
 newsDecoder : Decoder (List NewsItem)
 newsDecoder =
   list newsItemDecoder

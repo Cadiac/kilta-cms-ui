@@ -9,6 +9,7 @@ import RemoteData exposing (WebData)
 initialModel : Flags -> Route -> Model
 initialModel flags route =
   { info = RemoteData.NotAsked
+  , footer = RemoteData.NotAsked
   , news = Dict.empty
   , newsList = RemoteData.NotAsked
   , events = Dict.empty

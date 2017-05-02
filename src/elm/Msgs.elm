@@ -17,6 +17,7 @@ type Msg
   | OnFetchProfile (WebData Profile)
   | OnFetchSponsors (WebData (List Sponsor))
   | OnFetchInfo (WebData Info)
+  | OnFetchFooter (WebData Footer)
   | OnFetchNewsList (WebData (List NewsItem))
   | OnFetchSingleNewsStory NewsId (WebData NewsItem)
   | OnFetchEventsList (WebData (List EventItem))

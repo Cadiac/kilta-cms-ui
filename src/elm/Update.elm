@@ -89,3 +89,6 @@ update msg model =
 
     Msgs.OnFetchInfo response ->
       ( { model | info = response }, Cmd.none )
+
+    Msgs.OnFetchFooter response ->
+      ( { model | footer = response }, Cmd.none )

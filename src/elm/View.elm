@@ -8,6 +8,7 @@ import Models exposing (Model)
 
 import Common.Navbar
 import Common.Sponsors
+import Common.Footer
 
 import User.LoginForm
 import User.ProfilePage
@@ -22,6 +23,7 @@ view model =
   div []
     [ Common.Navbar.view model
     , page model
+    , Common.Footer.view model
     ]
 
 page : Model -> Html Msg

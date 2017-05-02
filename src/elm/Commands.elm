@@ -40,6 +40,16 @@ fetchInfo apiUrl =
       |> RemoteData.sendRequest
       |> Cmd.map Msgs.OnFetchInfo
 
+fetchFooter : String -> Cmd Msg
+fetchFooter apiUrl =
+  let
+    url =
+      apiUrl ++ "/api/v1/footer"
+  in
+    Http.get url footerDecoder
+      |> RemoteData.sendRequest
+      |> Cmd.map Msgs.OnFetchFooter
+
 fetchNewsList : String -> Cmd Msg
 fetchNewsList apiUrl =
   let

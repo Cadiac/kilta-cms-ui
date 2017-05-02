@@ -4,13 +4,13 @@ import Dict exposing (Dict)
 import RemoteData exposing (WebData)
 
 type alias Image = {
-  url: String,
-  thumbnail: String
+  url : String,
+  thumbnail : String
 }
 
 type alias JumbotronImage = {
-  title: String,
-  url: String
+  title : String,
+  url : String
 }
 
 type alias Info =
@@ -19,6 +19,23 @@ type alias Info =
   , name : String
   , logo : Image
   , jumbotron : List JumbotronImage
+  }
+
+type alias FooterLink =
+  { title : String
+  , url : String
+  }
+
+type alias SocialMediaButton =
+  { title : String
+  , url : String
+  , logo : Image
+  }
+
+type alias Footer =
+  { contact_info : String
+  , other_links : List FooterLink
+  , social_media_buttons : List SocialMediaButton
   }
 
 type alias Flags =
@@ -109,6 +126,7 @@ type Route
 
 type alias Model =
   { info : WebData Info
+  , footer : WebData Footer
   , news : Dict NewsId (WebData NewsItem)
   , newsList : WebData (List NewsItem)
   , events : Dict EventId (WebData EventItem)

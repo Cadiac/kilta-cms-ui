@@ -42,6 +42,7 @@ fetchLocationData location model =
   let
     baseCmds =
       [ fetchInfo model.config.apiUrl
+      , fetchFooter model.config.apiUrl
       , fetchNewsList model.config.apiUrl
       , fetchEventsList model.config.apiUrl
       , fetchSponsors model.config.apiUrl
