@@ -71,7 +71,7 @@ eventItemDecoder =
     |> required "event_start_time" string
     |> required "event_end_time" string
     |> required "registration_start_time" string
-    |> required "registration_end_time" string
+    |> required "registration_end_date" string
     |> required "max_participants" int
     |> required "authors" (list string)
     |> required "participants" (list string)

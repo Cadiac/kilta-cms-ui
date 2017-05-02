@@ -1,4 +1,4 @@
-module News.NewsStory exposing (view)
+module Events.EventPage exposing (view)
 
 import Msgs exposing (Msg)
 import Html exposing (..)
@@ -6,11 +6,11 @@ import Html.Attributes exposing (..)
 import Dict exposing (Dict)
 
 import RemoteData exposing (WebData)
-import Models exposing (NewsItem, NewsId, Model)
-import News.NewsItem
+import Models exposing (EventItem, EventId, Model)
+import Events.EventItem
 
-maybeNewsContent : WebData (NewsItem) -> Html Msg
-maybeNewsContent response =
+maybeEventContent : WebData (EventItem) -> Html Msg
+maybeEventContent response =
   case response of
     RemoteData.NotAsked ->
       text ""
@@ -18,19 +18,19 @@ maybeNewsContent response =
     RemoteData.Loading ->
       text "Loading..."
 
-    RemoteData.Success newsStory ->
+    RemoteData.Success event ->
       section [ class "section" ] [
-        News.NewsItem.view newsStory
+        Events.EventItem.view event
       ]
 
     RemoteData.Failure error ->
       text (toString error)
 
-view : Model -> NewsId -> Html Msg
-view model newsId =
+view : Model -> EventId -> Html Msg
+view model eventId =
   div [] [
-    maybeNewsContent (
-      Dict.get newsId model.news
+    maybeEventContent (
+      Dict.get eventId model.events
         |> Maybe.withDefault RemoteData.NotAsked
     )
   ]
@@ -38,5 +38,5 @@ view model newsId =
 notFoundView : Html msg
 notFoundView =
   section [ class "section" ] [
-    text "Not found"
+    text "Tapahtumaa ei löytynyt"
   ]

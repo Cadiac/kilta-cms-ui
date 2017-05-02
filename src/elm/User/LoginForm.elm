@@ -42,7 +42,7 @@ view model =
               ]
           , button
             [ type_ "submit" ]
-            [ text "Login" ]
+            [ text "Kirjaudu" ]
           ]
         ]
       ]

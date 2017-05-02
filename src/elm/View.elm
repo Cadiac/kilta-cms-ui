@@ -13,7 +13,9 @@ import User.LoginForm
 import User.ProfilePage
 
 import News.NewsList
-import News.NewsStory
+import News.NewsPage
+import Events.EventsList
+import Events.EventPage
 
 view : Model -> Html Msg
 view model =
@@ -38,20 +40,23 @@ page model =
       mainLayout model (News.NewsList.view model.newsList)
 
     Models.NewsRoute id ->
-      mainLayout model (News.NewsStory.view model id)
+      mainLayout model (News.NewsPage.view model id)
 
     Models.EventListRoute ->
-      mainLayout model (News.NewsList.view model.newsList)
+      mainLayout model (Events.EventsList.view model.eventsList)
 
     Models.EventRoute id ->
-      mainLayout model (News.NewsStory.view model id)
+      mainLayout model (Events.EventPage.view model id)
 
     Models.NotFoundRoute ->
       mainLayout model notFoundView
 
 landingPage : Model -> Html Msg
 landingPage model =
-  News.NewsList.view model.newsList
+  div [] [
+    News.NewsList.view model.newsList,
+    Events.EventsList.view model.eventsList
+  ]
 
 mainLayout : Model -> Html Msg -> Html Msg
 mainLayout model content =

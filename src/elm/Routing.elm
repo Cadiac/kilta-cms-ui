@@ -43,6 +43,7 @@ fetchLocationData location model =
     baseCmds =
       [ fetchInfo model.config.apiUrl
       , fetchNewsList model.config.apiUrl
+      , fetchEventsList model.config.apiUrl
       , fetchSponsors model.config.apiUrl
       ]
   in
@@ -79,8 +80,10 @@ matchers : Parser (Route -> a) a
 matchers =
   oneOf
     [ map IndexRoute top
-    , map NewsRoute (s "news" </> int)
     , map NewsListRoute (s "news")
+    , map NewsRoute (s "news" </> int)
+    , map EventListRoute (s "events")
+    , map EventRoute (s "events" </> int)
     , map LoginRoute (s "login")
     , map ProfileRoute (s "profile")
     ]

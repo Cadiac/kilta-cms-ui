@@ -57,7 +57,7 @@ type alias EventItem =
   , event_start_time : String
   , event_end_time : String
   , registration_start_time : String
-  , registration_end_date : String
+  , registration_end_time : String
   , max_participants : Int
   , authors : List String
   , participants : List String
