@@ -7,7 +7,7 @@ import Msgs exposing (Msg)
 import Models exposing (Footer, SocialMediaButton, FooterLink, Model)
 import RemoteData exposing (WebData)
 
-import Routing exposing (onLinkClick)
+import Markdown
 
 socialMediaButton : SocialMediaButton -> Html Msg
 socialMediaButton button =
@@ -41,25 +41,23 @@ maybeFooterContent response =
       text ""
 
     RemoteData.Loading ->
-      a [ class "btn regular", href "/", onLinkClick (Msgs.ChangeLocation "/")] [
-        text "Loading..."
-      ]
+      text "Loading..."
 
     RemoteData.Success footer ->
       div [ class "columns" ]
-        [ div [ class "column is-5" ] [
-            text footer.contact_info
-          ]
-        , div [ class "column is-4" ] [
-            div [ class "social" ] (
-              List.map socialMediaButton footer.social_media_buttons
-            )
+        [ div [ class "column is-7" ] [
+            Markdown.toHtml [ class "contact content" ] footer.contact_info
           ]
         , div [ class "column is-3" ] [
             div [ class "other" ] (
               List.map otherLink footer.other_links
             )
         ]
+        , div [ class "column is-2" ] [
+            div [ class "social" ] (
+              List.map socialMediaButton footer.social_media_buttons
+            )
+          ]
       ]
 
     RemoteData.Failure error ->
@@ -68,7 +66,7 @@ maybeFooterContent response =
 
 view : Model -> Html Msg
 view model =
-  footer [ class "footer", style styles.footer ] [
+  footer [ class "footer" ] [
     maybeFooterContent model.footer
   ]
 
