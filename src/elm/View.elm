@@ -12,7 +12,7 @@ import Common.Sponsors
 import User.LoginForm
 import User.ProfilePage
 
-import News.List
+import News.NewsList
 import News.NewsStory
 
 view : Model -> Html Msg
@@ -35,7 +35,7 @@ page model =
       mainLayout model (User.ProfilePage.view model)
 
     Models.NewsListRoute ->
-      mainLayout model (News.List.view model.newsList)
+      mainLayout model (News.NewsList.view model.newsList)
 
     Models.NewsRoute id ->
       mainLayout model (News.NewsStory.view model id)
@@ -45,7 +45,7 @@ page model =
 
 landingPage : Model -> Html Msg
 landingPage model =
-  News.List.view model.newsList
+  News.NewsList.view model.newsList
 
 mainLayout : Model -> Html Msg -> Html Msg
 mainLayout model content =

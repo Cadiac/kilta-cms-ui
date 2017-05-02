@@ -1,34 +1,16 @@
-module News.Components exposing (maybeNewsList, newsItem)
+module News.NewsItem exposing (view)
 
 import Msgs exposing (Msg)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
-import RemoteData exposing (WebData)
 import Models exposing (NewsItem)
 import Routing exposing (newsStoryPath)
 
-import Utils exposing (onLinkClick)
+import Routing exposing (onLinkClick)
 
-maybeNewsList : WebData (List NewsItem) -> Html Msg
-maybeNewsList response =
-  case response of
-    RemoteData.NotAsked ->
-      text ""
-
-    RemoteData.Loading ->
-      text "Loading..."
-
-    RemoteData.Success news ->
-      div [] (
-        List.map newsItem news
-      )
-
-    RemoteData.Failure error ->
-      text (toString error)
-
-newsItem : NewsItem -> Html Msg
-newsItem news =
+view : NewsItem -> Html Msg
+view news =
   let
     path =
       newsStoryPath news.id

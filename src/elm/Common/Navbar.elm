@@ -8,7 +8,7 @@ import Msgs exposing (Msg)
 import Models exposing (Info, Model)
 import RemoteData exposing (WebData)
 
-import Utils exposing (onLinkClick)
+import Routing exposing (onLinkClick)
 
 maybeTitle : WebData (Info) -> Html Msg
 maybeTitle info =

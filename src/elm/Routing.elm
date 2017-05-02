@@ -1,12 +1,17 @@
 module Routing exposing (..)
 
+import Html exposing (Attribute)
+import Html.Events exposing (onWithOptions)
+
 import Dict exposing (Dict)
 
-import Msgs exposing (Msg)
 import Navigation exposing ( Location, newUrl )
-import Models exposing ( NewsId, Model, Route(..) )
 import Commands exposing (..)
 import UrlParser exposing (..)
+import Json.Decode as Decode
+
+import Msgs exposing (Msg)
+import Models exposing ( NewsId, Model, Route(..) )
 
 loginPath : String
 loginPath =
@@ -73,3 +78,14 @@ parseLocation location =
 
     Nothing ->
       NotFoundRoute
+
+
+onLinkClick : msg -> Attribute msg
+onLinkClick message =
+  let
+    options =
+      { stopPropagation = False
+      , preventDefault = True
+      }
+  in
+    onWithOptions "click" options (Decode.succeed message)

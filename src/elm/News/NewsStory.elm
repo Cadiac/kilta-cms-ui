@@ -7,7 +7,7 @@ import Dict exposing (Dict)
 
 import RemoteData exposing (WebData)
 import Models exposing (NewsItem, NewsId, Model)
-import News.Components
+import News.NewsItem
 
 maybeNewsContent : WebData (NewsItem) -> Html Msg
 maybeNewsContent response =
@@ -20,7 +20,7 @@ maybeNewsContent response =
 
     RemoteData.Success newsStory ->
       section [ class "section" ] [
-        News.Components.newsItem newsStory
+        News.NewsItem.view newsStory
       ]
 
     RemoteData.Failure error ->
