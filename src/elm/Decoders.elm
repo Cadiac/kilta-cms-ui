@@ -55,6 +55,27 @@ newsItemDecoder =
     |> required "news_category" int
     |> required "authors" (list string)
 
+eventsDecoder : Decoder (List EventItem)
+eventsDecoder =
+  list eventItemDecoder
+
+eventItemDecoder : Decoder EventItem
+eventItemDecoder =
+  decode EventItem
+    |> required "id" int
+    |> required "title" string
+    |> required "text" string
+    |> required "slug" string
+    |> required "created_on" string
+    |> required "location" string
+    |> required "event_start_time" string
+    |> required "event_end_time" string
+    |> required "registration_start_time" string
+    |> required "registration_end_time" string
+    |> required "max_participants" int
+    |> required "authors" (list string)
+    |> required "participants" (list string)
+
 tokenStringDecoder : Decoder String
 tokenStringDecoder =
   field "token" string

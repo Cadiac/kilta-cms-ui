@@ -60,6 +60,27 @@ fetchSingleNewsStory apiUrl newsId =
       |> RemoteData.sendRequest
       |> Cmd.map (Msgs.OnFetchSingleNewsStory newsId)
 
+fetchEventsList : String -> Cmd Msg
+fetchEventsList apiUrl =
+  let
+    url =
+      apiUrl ++ "/api/v1/events"
+  in
+    Http.get url eventsDecoder
+      |> RemoteData.sendRequest
+      |> Cmd.map Msgs.OnFetchEventsList
+
+fetchSingleEvent : String -> EventId -> Cmd Msg
+fetchSingleEvent apiUrl eventId =
+  let
+    url =
+      apiUrl ++ "/api/v1/events/" ++ toString eventId
+  in
+    Http.get url eventItemDecoder
+      |> RemoteData.sendRequest
+      |> Cmd.map (Msgs.OnFetchSingleEvent eventId)
+
+
 submitCredentials : Model -> Cmd Msg
 submitCredentials model =
   let

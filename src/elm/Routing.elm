@@ -11,7 +11,7 @@ import UrlParser exposing (..)
 import Json.Decode as Decode
 
 import Msgs exposing (Msg)
-import Models exposing ( NewsId, Model, Route(..) )
+import Models exposing ( NewsId, EventId, Model, Route(..) )
 
 loginPath : String
 loginPath =
@@ -28,6 +28,14 @@ newsPath =
 newsStoryPath : NewsId -> String
 newsStoryPath newsId =
   "news/" ++ toString newsId
+
+eventsPath : String
+eventsPath =
+  "events"
+
+eventPath : EventId -> String
+eventPath eventId =
+  "events/" ++ toString eventId
 
 fetchLocationData : Route -> Model -> Cmd Msg
 fetchLocationData location model =
@@ -55,6 +63,14 @@ fetchLocationData location model =
           ( Cmd.batch baseCmds )
         else
           ( Cmd.batch ( fetchSingleNewsStory model.config.apiUrl newsId :: baseCmds ) )
+      Models.EventListRoute ->
+        ( Cmd.batch baseCmds )
+      Models.EventRoute eventId ->
+        -- Check if we already have the news fetched
+        if Dict.member eventId model.events then
+          ( Cmd.batch baseCmds )
+        else
+          ( Cmd.batch ( fetchSingleEvent model.config.apiUrl eventId :: baseCmds ) )
       Models.NotFoundRoute ->
         ( Cmd.none )
 

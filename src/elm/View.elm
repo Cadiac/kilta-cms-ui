@@ -40,6 +40,12 @@ page model =
     Models.NewsRoute id ->
       mainLayout model (News.NewsStory.view model id)
 
+    Models.EventListRoute ->
+      mainLayout model (News.NewsList.view model.newsList)
+
+    Models.EventRoute id ->
+      mainLayout model (News.NewsStory.view model id)
+
     Models.NotFoundRoute ->
       mainLayout model notFoundView
 

@@ -45,6 +45,25 @@ type alias NewsItem =
   , authors : List String
   }
 
+type alias EventId = Int
+
+type alias EventItem =
+  { id : EventId
+  , title : String
+  , text : String
+  , slug : String
+  , created_on : String
+  , location : String
+  , event_start_time : String
+  , event_end_time : String
+  , registration_start_time : String
+  , registration_end_date : String
+  , max_participants : Int
+  , authors : List String
+  , participants : List String
+  }
+
+
 type LoginForm
     = Username
     | Password
@@ -81,6 +100,8 @@ type Route
   | ProfileRoute
   | NewsListRoute
   | NewsRoute NewsId
+  | EventListRoute
+  | EventRoute EventId
   | NotFoundRoute
 
 -- MODEL
@@ -90,6 +111,8 @@ type alias Model =
   { info : WebData Info
   , news : Dict NewsId (WebData NewsItem)
   , newsList : WebData (List NewsItem)
+  , events : Dict EventId (WebData EventItem)
+  , eventsList : WebData (List EventItem)
   , sponsors : WebData (List Sponsor)
   , amount : Int
   , config : Flags

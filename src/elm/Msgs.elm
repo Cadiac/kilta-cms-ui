@@ -1,7 +1,7 @@
 module Msgs exposing (..)
 
-import Navigation exposing ( Location )
-import RemoteData exposing ( WebData )
+import Navigation exposing (Location)
+import RemoteData exposing (WebData)
 import Models exposing (..)
 import Http
 
@@ -19,3 +19,5 @@ type Msg
   | OnFetchInfo (WebData Info)
   | OnFetchNewsList (WebData (List NewsItem))
   | OnFetchSingleNewsStory NewsId (WebData NewsItem)
+  | OnFetchEventsList (WebData (List EventItem))
+  | OnFetchSingleEvent EventId (WebData EventItem)
