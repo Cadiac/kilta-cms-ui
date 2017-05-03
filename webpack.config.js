@@ -2,6 +2,7 @@ var path              = require( 'path' );
 var webpack           = require( 'webpack' );
 var merge             = require( 'webpack-merge' );
 var HtmlWebpackPlugin = require( 'html-webpack-plugin' );
+var InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 var autoprefixer      = require( 'autoprefixer' );
 var ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
 var CopyWebpackPlugin = require( 'copy-webpack-plugin' );
@@ -38,9 +39,15 @@ var commonConfig = {
   },
 
   plugins: [
+    new InterpolateHtmlPlugin({
+      ANALYTICS_TRACKING_ID: process.env.ANALYTICS_TRACKING_ID,
+      GUILD_NAME: process.env.GUILD_NAME,
+      META_DESCRIPTION: process.env.META_DESCRIPTION,
+      META_KEYWORDS: process.env.META_KEYWORDS
+    }),
     new HtmlWebpackPlugin({
       template: 'src/static/index.html',
-      inject:   'body',
+      inject:   true,
       filename: 'index.html'
     }),
     new webpack.DefinePlugin({
@@ -84,6 +91,14 @@ if ( TARGET_ENV === 'development' ) {
             'postcss-loader',
             'sass-loader'
           ]
+        },
+        {
+          test: /\.js?$/,
+          exclude: /node_modules\/(?!(autotrack|dom-utils))/,
+          loader: 'babel-loader',
+          query: {
+            presets: ['es2015']
+          }
         }
       ]
     }
@@ -113,6 +128,14 @@ if ( TARGET_ENV === 'production' ) {
             'postcss-loader',
             'sass-loader'
           ])
+        },
+        {
+          test: /\.js?$/,
+          exclude: /node_modules\/(?!(autotrack|dom-utils))/,
+          loader: 'babel-loader',
+          query: {
+            presets: ['es2015']
+          }
         }
       ]
     },
@@ -125,10 +148,6 @@ if ( TARGET_ENV === 'production' ) {
         },
         {
           from: 'src/favicon.ico'
-        },
-        {
-          from: 'src/static/vendor/',
-          to:   'static/vendor/'
         }
       ]),
 
