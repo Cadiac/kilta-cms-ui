@@ -126,6 +126,10 @@ if ( TARGET_ENV === 'production' ) {
         {
           from: 'src/favicon.ico'
         },
+        {
+          from: 'src/static/vendor/',
+          to:   'static/vendor/'
+        }
       ]),
 
       new webpack.optimize.OccurenceOrderPlugin(),
