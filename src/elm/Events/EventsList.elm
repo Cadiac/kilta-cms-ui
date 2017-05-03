@@ -35,6 +35,5 @@ view response =
         text "Tapahtumat"
       ]
     ]
-    , hr [][]
     , maybeEventsList response
   ]

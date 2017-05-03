@@ -5,9 +5,9 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 
 import Models exposing (NewsItem)
-import Routing exposing (newsStoryPath)
+import Routing exposing (newsStoryPath, onLinkClick)
 
-import Routing exposing (onLinkClick)
+import Markdown
 
 view : NewsItem -> Html Msg
 view news =
@@ -16,6 +16,7 @@ view news =
       newsStoryPath news.id
   in
     article [] [
+      hr [][],
       div [ class "heading" ] [
         a [ class "btn regular", href path, onLinkClick (Msgs.ChangeLocation path)] [
           h2 [ class "subtitle is-4" ] [
@@ -23,7 +24,5 @@ view news =
           ]
         ]
       ]
-      , div [ class "content" ] [
-        text news.text
-      ]
+      , Markdown.toHtml [ class "content" ] news.text
     ]

@@ -34,6 +34,5 @@ view response =
         text "Ajankohtaista"
       ]
     ]
-    , hr [][]
     , maybeNewsList response
   ]

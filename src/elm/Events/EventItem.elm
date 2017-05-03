@@ -5,9 +5,9 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 
 import Models exposing (EventItem)
-import Routing exposing (eventPath)
+import Routing exposing (eventPath, onLinkClick)
 
-import Routing exposing (onLinkClick)
+import Markdown
 
 view : EventItem -> Html Msg
 view event =
@@ -16,6 +16,7 @@ view event =
       eventPath event.id
   in
     article [] [
+      hr [][],
       div [ class "heading" ] [
         a [ class "btn regular", href path, onLinkClick (Msgs.ChangeLocation path)] [
           h2 [ class "subtitle is-4" ] [
@@ -23,7 +24,5 @@ view event =
           ]
         ]
       ]
-      , div [ class "content" ] [
-        text event.text
-      ]
+      , Markdown.toHtml [ class "content" ] event.text
     ]
