@@ -9,6 +9,7 @@ import Navigation exposing ( Location, newUrl )
 import Commands exposing (..)
 import UrlParser exposing (..)
 import Json.Decode as Decode
+import RemoteData exposing (WebData)
 
 import Msgs exposing (Msg)
 import Models exposing ( NewsId, EventId, Model, Route(..) )
@@ -37,15 +38,29 @@ eventPath : EventId -> String
 eventPath eventId =
   "events/" ++ toString eventId
 
+maybeRequestData : Cmd Msg -> WebData a -> Cmd Msg
+maybeRequestData command data =
+  case data of
+    RemoteData.NotAsked ->
+      command
+    RemoteData.Failure error ->
+      command
+
+    RemoteData.Loading ->
+      Cmd.none
+    RemoteData.Success newsItem ->
+      Cmd.none
+
+
 fetchLocationData : Route -> Model -> Cmd Msg
 fetchLocationData location model =
   let
     baseCmds =
-      [ fetchInfo model.config.apiUrl
-      , fetchFooter model.config.apiUrl
-      , fetchNewsList model.config.apiUrl
-      , fetchEventsList model.config.apiUrl
-      , fetchSponsors model.config.apiUrl
+      [ maybeRequestData (fetchInfo model.config.apiUrl) model.info
+      , maybeRequestData (fetchFooter model.config.apiUrl) model.footer
+      , maybeRequestData (fetchNewsList model.config.apiUrl) model.newsList
+      , maybeRequestData (fetchEventsList model.config.apiUrl) model.eventsList
+      , maybeRequestData (fetchSponsors model.config.apiUrl) model.sponsors
       ]
   in
     case location of

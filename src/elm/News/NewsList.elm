@@ -4,7 +4,6 @@ import Msgs exposing (Msg)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
-import RemoteData exposing (WebData)
 import Models exposing (NewsItem)
 import RemoteData exposing (WebData)
 
