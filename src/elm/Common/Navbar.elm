@@ -8,7 +8,7 @@ import Msgs exposing (Msg)
 import Models exposing (Info, Model)
 import RemoteData exposing (WebData)
 
-import Routing exposing (onLinkClick)
+import Routing exposing (onLinkClick, locationSubtitle)
 
 maybeTitle : WebData (Info) -> Html Msg
 maybeTitle info =
@@ -22,8 +22,10 @@ maybeTitle info =
       ]
 
     RemoteData.Success info ->
-      a [ class "btn regular", href "/", onLinkClick (Msgs.ChangeLocation "/")] [
-        text ( info.title )
+      a [ href "/", onLinkClick (Msgs.ChangeLocation "/")] [
+        h1 [ class "heading" ] [
+          text ( info.title )
+        ]
       ]
 
     RemoteData.Failure error ->
@@ -73,6 +75,12 @@ view model =
     div [ class "nav-left" ] [
       div [ class "nav-item" ] [
         maybeTitle model.info
+      ],
+      div [ class "nav-item" ] [
+        h1 [ class "heading" ] [
+          locationSubtitle model.route
+            |> text
+        ]
       ]
     ]
     , div [ class "nav-right nav-menu" ] [
