@@ -62,7 +62,7 @@ landingPage model =
 
 mainLayout : Model -> Html Msg -> Html Msg
 mainLayout model content =
-  section [ class "section" ] [
+  section [ class "section", style styles.mainSection ] [
     div [ class "columns" ] [
       div [ class "column is-two-thirds"] [
         content
@@ -73,9 +73,18 @@ mainLayout model content =
     ]
   ]
 
-
 notFoundView : Html msg
 notFoundView =
-  section [ class "section" ] [
+  section [ class "section", style styles.mainSection ] [
     text "Not found"
   ]
+
+
+-- CSS STYLES
+
+styles : { mainSection : List ( String, String ) }
+styles =
+  {
+    mainSection =
+      [ ( "min-height", "640px" ) ]
+  }
