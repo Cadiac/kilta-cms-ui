@@ -12,7 +12,7 @@ import Json.Decode as Decode
 import RemoteData exposing (WebData)
 
 import Msgs exposing (Msg)
-import Models exposing ( NewsId, EventId, Model, Route(..) )
+import Models exposing ( NewsId, EventId, Model, Route(..), Info )
 
 loginPath : String
 loginPath =
@@ -114,6 +114,36 @@ parseLocation location =
     Nothing ->
       NotFoundRoute
 
+locationSubtitle : Route -> String
+locationSubtitle route =
+  case route of
+    IndexRoute ->
+      "Etusivu"
+    LoginRoute ->
+      "Kirjaudu"
+    ProfileRoute ->
+      "Profiili"
+    NewsListRoute ->
+      "Uutiset"
+    NewsRoute newsId ->
+      "Uutiset"
+    EventListRoute ->
+      "Tapahtumat"
+    EventRoute eventId ->
+      "Tapahtumat"
+    NotFoundRoute ->
+      "Sivua ei löytynyt"
+
+locationTitle : Maybe Info -> Route -> String
+locationTitle info route =
+  let
+    subTitle = locationSubtitle route
+  in
+    case info of
+      Just info ->
+        subTitle ++ " - " ++ info.title
+      Nothing ->
+        subTitle
 
 onLinkClick : msg -> Attribute msg
 onLinkClick message =

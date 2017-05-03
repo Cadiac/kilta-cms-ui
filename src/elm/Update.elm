@@ -3,12 +3,13 @@ module Update exposing (..)
 import Msgs exposing (Msg)
 import Models exposing (Model)
 import Navigation exposing (newUrl)
-import Commands exposing (submitCredentials, saveToken, clearToken)
+import Commands exposing (submitCredentials, saveToken, clearToken, setTitle)
 import Decoders exposing (maybeDecodeToken)
+import RemoteData
 
 import Dict exposing (Dict)
 
-import Routing exposing (parseLocation, fetchLocationData)
+import Routing exposing (parseLocation, fetchLocationData, locationTitle)
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -22,10 +23,15 @@ update msg model =
       let
         newRoute =
           parseLocation location
-        command =
-          fetchLocationData newRoute model
+        newTitle =
+          locationTitle (RemoteData.toMaybe model.info) newRoute
+        commands =
+          Cmd.batch
+            [ fetchLocationData newRoute model
+            , setTitle newTitle
+            ]
       in
-        ( { model | route = newRoute }, command )
+        ( { model | route = newRoute }, commands )
 
     Msgs.Login ->
       model !
@@ -76,6 +82,7 @@ update msg model =
       ( { model | profile = response}, Cmd.none )
 
     Msgs.OnFetchNewsList response ->
+
       ( { model | newsList = response }, Cmd.none )
 
     Msgs.OnFetchSingleNewsStory newsId response ->

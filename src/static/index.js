@@ -19,3 +19,7 @@ app.ports.saveToken.subscribe((token) => {
 app.ports.clearToken.subscribe(() => {
   localStorage.removeItem('authorization_token');
 });
+
+app.ports.setTitle.subscribe((title) => {
+  document.title = title;
+})
