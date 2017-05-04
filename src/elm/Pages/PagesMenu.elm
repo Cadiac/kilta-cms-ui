@@ -23,13 +23,13 @@ categoryItem currentRoute pageCategory =
 
 urlToLocation : String -> Location
 urlToLocation url =
-  { href = url
+  { href = ""
   , host = ""
   , hostname = ""
   , protocol = ""
   , origin = ""
   , port_ = ""
-  , pathname = ""
+  , pathname = url
   , search = ""
   , hash = ""
   , username = ""
