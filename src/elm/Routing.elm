@@ -16,35 +16,35 @@ import Models exposing ( NewsId, EventId, Model, Route(..), Info, Slug )
 
 loginPath : String
 loginPath =
-  "login"
+  "/login"
 
 profilePath : String
 profilePath =
-  "profile"
+  "/profile"
 
 newsPath : String
 newsPath =
-  "news"
+  "/news"
 
 newsStoryPath : NewsId -> String
 newsStoryPath newsId =
-  "news/" ++ toString newsId
+  "/news/" ++ toString newsId
 
 eventsPath : String
 eventsPath =
-  "events"
+  "/events"
 
 eventPath : EventId -> String
 eventPath eventId =
-  "events/" ++ toString eventId
+  "/events/" ++ toString eventId
 
 pagePath : Slug -> String
 pagePath category =
-  "pages/" ++ category
+  "/pages/" ++ category
 
 subPagePath : Slug -> Slug -> String
 subPagePath category slug =
-  "pages/" ++ category ++ "/" ++ slug
+  "/pages/" ++ category ++ "/" ++ slug
 
 maybeRequestData : Cmd Msg -> WebData a -> Cmd Msg
 maybeRequestData command data =
