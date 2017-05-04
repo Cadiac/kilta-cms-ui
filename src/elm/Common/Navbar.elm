@@ -63,7 +63,7 @@ loginButton =
     , onLinkClick (Msgs.ChangeLocation "/login")
     ] [
     span [ class "icon" ][
-      i [ class "fa fa-github" ] []
+      i [ class "fa fa-sign-in" ] []
     ],
     span [] [
       text ( "Login" )
@@ -87,7 +87,7 @@ profileButton username =
      , onLinkClick (Msgs.ChangeLocation "/profile")
      ] [
      span [ class "icon" ][
-       i [ class "fa fa-github" ] []
+       i [ class "fa fa-user-circle-o" ] []
      ],
      span [] [
        text ( username )

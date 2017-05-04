@@ -10,6 +10,7 @@ import RemoteData
 
 import Decoders exposing (..)
 import Encoders exposing (..)
+import Json.Decode as Decode exposing (string)
 import Json.Encode as Encode exposing (Value)
 
 
@@ -127,6 +128,16 @@ updateProfile apiUrl token profile =
     Jwt.put token url (Http.jsonBody encodedProfile) profileDecoder
       |> RemoteData.sendRequest
       |> Cmd.map Msgs.OnFetchProfile
+
+participateEvent : String -> String -> EventId -> Cmd Msg
+participateEvent apiUrl token eventId =
+  let
+    url =
+      apiUrl ++ "/api/v1/events/" ++ toString eventId
+  in
+    Jwt.post token url (Http.emptyBody) string
+      |> RemoteData.sendRequest
+      |> Cmd.map (Msgs.OnParticipateEvent eventId)
 
 fetchNewsCategories : String -> Cmd Msg
 fetchNewsCategories apiUrl =

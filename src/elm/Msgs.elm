@@ -17,6 +17,7 @@ type Msg
   | LoginFormInput LoginForm String
   | ProfileFormInput ProfileForm String
   | UpdateProfile
+  | ParticipateEvent EventId
   | ChangeLocation String
   | OnLocationChange Location
   | OnFetchProfile (WebData Profile)
@@ -30,3 +31,4 @@ type Msg
   | OnFetchNewsCategories (WebData (List NewsCategory))
   | OnFetchPageCategories (WebData (List PageCategory))
   | OnFetchSinglePage Slug (WebData PageItem)
+  | OnParticipateEvent EventId (WebData String)

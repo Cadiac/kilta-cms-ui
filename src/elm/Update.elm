@@ -3,7 +3,7 @@ module Update exposing (..)
 import Msgs exposing (Msg)
 import Models exposing (Model, Profile)
 import Navigation exposing (newUrl)
-import Commands exposing (submitCredentials, saveToken, clearToken, setTitle, updateProfile)
+import Commands
 import Decoders exposing (maybeDecodeToken)
 import RemoteData exposing (WebData)
 
@@ -89,20 +89,20 @@ update msg model =
         commands =
           Cmd.batch
             [ fetchLocationData newRoute model
-            , setTitle newTitle
+            , Commands.setTitle newTitle
             ]
       in
         ( { model | route = newRoute }, commands )
 
     Msgs.Login ->
       model !
-        [ submitCredentials model
+        [ Commands.submitCredentials model
         , newUrl "/"
         ]
 
     Msgs.Logout ->
       { model | token = "", decodedToken = Nothing, logoutTimer = 5 } !
-        [ clearToken ()
+        [ Commands.clearToken ()
         , newUrl "/logout"
         ]
 
@@ -121,7 +121,7 @@ update msg model =
     Msgs.Auth res ->
       case res of
         Result.Ok tokenString ->
-          ( { model | token = tokenString, decodedToken = maybeDecodeToken tokenString }, saveToken tokenString )
+          ( { model | token = tokenString, decodedToken = maybeDecodeToken tokenString }, Commands.saveToken tokenString )
 
         Result.Err err ->
           ( { model | token = "", decodedToken = Nothing, error = toString err }, Cmd.none )
@@ -146,7 +146,10 @@ update msg model =
           { model | profile = model.profile |> setProfilePhone val } ! []
 
     Msgs.UpdateProfile ->
-      ( model, updateProfile model.config.apiUrl model.token (RemoteData.toMaybe model.profile) )
+      ( model, Commands.updateProfile model.config.apiUrl model.token (RemoteData.toMaybe model.profile) )
+
+    Msgs.ParticipateEvent eventId ->
+      ( model, Commands.participateEvent model.config.apiUrl model.token eventId )
 
     Msgs.OnFetchSponsors response ->
       ( { model | sponsors = response }, Cmd.none )
@@ -181,3 +184,6 @@ update msg model =
 
     Msgs.OnFetchSinglePage slug response ->
       ( { model | pages = Dict.insert slug (response) model.pages }, Cmd.none )
+
+    Msgs.OnParticipateEvent eventId response ->
+      ( model, Commands.fetchSingleEvent model.config.apiUrl eventId )
