@@ -7,8 +7,7 @@ import Html.Attributes exposing (..)
 import Models exposing (PageItem, PageCategory, SubPage, Slug, Route, Model)
 import RemoteData exposing (WebData)
 
-import Routing exposing (onLinkClick, pagePath, subPagePath, parseLocation)
-import Navigation exposing (Location)
+import Routing exposing (..)
 
 categoryItem : Route -> PageCategory -> Html Msg
 categoryItem currentRoute pageCategory =
@@ -20,28 +19,6 @@ categoryItem currentRoute pageCategory =
       List.map (subPageItem pageCategory.slug currentRoute) pageCategory.subpages
     )
   ]
-
-urlToLocation : String -> Location
-urlToLocation url =
-  { href = ""
-  , host = ""
-  , hostname = ""
-  , protocol = ""
-  , origin = ""
-  , port_ = ""
-  , pathname = url
-  , search = ""
-  , hash = ""
-  , username = ""
-  , password = ""
-  }
-
-isActivePage : Location -> Route -> Bool
-isActivePage location route =
-  let urlRoute
-    = parseLocation location
-  in
-    urlRoute == route
 
 subPageItem : Slug -> Route -> SubPage -> Html Msg
 subPageItem category currentRoute subPage =

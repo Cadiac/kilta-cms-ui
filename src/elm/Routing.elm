@@ -170,6 +170,29 @@ locationTitle info route =
       Nothing ->
         subTitle
 
+-- Converts relative url to Location
+urlToLocation : String -> Location
+urlToLocation url =
+  { href = ""
+  , host = ""
+  , hostname = ""
+  , protocol = ""
+  , origin = ""
+  , port_ = ""
+  , pathname = url
+  , search = ""
+  , hash = ""
+  , username = ""
+  , password = ""
+  }
+
+isActivePage : Location -> Route -> Bool
+isActivePage location route =
+  let urlRoute
+    = parseLocation location
+  in
+    urlRoute == route
+
 onLinkClick : msg -> Attribute msg
 onLinkClick message =
   let
