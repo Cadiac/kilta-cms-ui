@@ -23,52 +23,67 @@ maybeProfileForm response =
       Html.form
         [ onSubmit Msgs.UpdateProfile ] [
           div [] [
-            div [ class "form-group" ]
-                [ label
-                  [ for "firstName" ]
-                  [ text "Etunimi" ]
-                , input
-                  [ onInput (Msgs.ProfileFormInput Models.FirstName)
-                  , value profile.firstName
-                  ]
-                  []
+            div [ class "field" ]
+              [ label
+                [ class "label"
+                , for "firstName" ]
+                [ text "Etunimi" ]
+              , input
+                [ class "input"
+                , onInput (Msgs.ProfileFormInput Models.FirstName)
+                , value profile.firstName
                 ]
+                []
+              ]
             , div
-                [ class "form-group" ]
-                [ label
-                  [ for "lastName" ]
-                  [ text "Sukunimi" ]
-                , input
-                  [ onInput (Msgs.ProfileFormInput Models.LastName)
-                  , value profile.lastName
-                  ]
-                  []
+              [ class "field" ]
+              [ label
+                [ class "label"
+                , for "lastName" ]
+                [ text "Sukunimi" ]
+              , input
+                [ class "input"
+                , onInput (Msgs.ProfileFormInput Models.LastName)
+                , value profile.lastName
                 ]
+                []
+              ]
             , div
-                [ class "form-group" ]
-                [ label
-                  [ for "email" ]
-                  [ text "Sähköposti" ]
-                , input
-                  [ onInput (Msgs.ProfileFormInput Models.Email)
-                  , value profile.email
-                  ]
-                  []
+              [ class "field" ]
+              [ label
+                [ class "label"
+                , for "email" ]
+                [ text "Sähköposti" ]
+              , input
+                [ class "input"
+                , onInput (Msgs.ProfileFormInput Models.Email)
+                , value profile.email
                 ]
+                []
+              ]
             , div
-                [ class "form-group" ]
-                [ label
-                  [ for "phone" ]
-                  [ text "Puhelin" ]
-                , input
-                  [ onInput (Msgs.ProfileFormInput Models.Phone)
-                  , value profile.phone
-                  ]
-                  []
+              [ class "field" ]
+              [ label
+                [ class "label"
+                , for "phone" ]
+                [ text "Puhelin" ]
+              , input
+                [ class "input"
+                , onInput (Msgs.ProfileFormInput Models.Phone)
+                , value profile.phone
                 ]
-            , button
-              [ type_ "submit" ]
-              [ text "Tallenna" ]
+                []
+              ]
+            , div
+              [ class "field" ]
+              [ p
+                [ class "control" ]
+                [ button
+                  [ class "button is-primary"
+                  , type_ "submit" ]
+                  [ text "Tallenna" ]
+                ]
+              ]
             ]
           ]
 

@@ -19,30 +19,42 @@ view model =
       [ Html.form
         [ onSubmit Msgs.Login ]
         [ div []
-          [ div []
+          [ div [ class "field" ]
             [ label
-              [ for "username" ]
+              [ class "label"
+              , for "username" ]
               [ text "Tunnus" ]
             , input
-              [ onInput (Msgs.LoginFormInput Models.Username)
+              [ class "input"
+              , onInput (Msgs.LoginFormInput Models.Username)
               , value model.username
               ]
               []
             ]
           , div
-              [ class "form-group" ]
+              [ class "field" ]
               [ label
-                [ for "password" ]
+                [ class "label"
+                , for "password" ]
                 [ text "Salasana" ]
               , input
-                [ onInput (Msgs.LoginFormInput Models.Password)
+                [ class "input"
+                , type_ "password"
+                , onInput (Msgs.LoginFormInput Models.Password)
                 , value model.password
                 ]
                 []
               ]
-          , button
-            [ type_ "submit" ]
-            [ text "Kirjaudu" ]
+          , div
+            [ class "field" ]
+            [ p
+              [ class "control" ]
+              [ button
+                [ class "button is-primary"
+                , type_ "submit" ]
+                [ text "Kirjaudu" ]
+              ]
+            ]
           ]
         ]
       ]
