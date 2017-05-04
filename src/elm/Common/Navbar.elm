@@ -8,7 +8,7 @@ import Msgs exposing (Msg)
 import Models exposing (Info, Model, PageCategory, NewsCategory)
 import RemoteData exposing (WebData)
 
-import Routing exposing (onLinkClick, locationSubtitle)
+import Routing exposing (onLinkClick, locationSubtitle, pagePath, subPagePath)
 
 navItem : String -> String -> Html Msg
 navItem url title =
@@ -37,7 +37,7 @@ maybeTitle info =
 
 pageItem : PageCategory -> Html Msg
 pageItem page =
-  navItem ("/pages/" ++ page.slug) page.title
+  navItem (pagePath page.slug) page.title
 
 maybePageCategories : WebData (List PageCategory) -> Html Msg
 maybePageCategories pages =

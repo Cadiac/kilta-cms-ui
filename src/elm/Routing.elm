@@ -12,7 +12,7 @@ import Json.Decode as Decode
 import RemoteData exposing (WebData)
 
 import Msgs exposing (Msg)
-import Models exposing ( NewsId, EventId, Model, Route(..), Info )
+import Models exposing ( NewsId, EventId, Model, Route(..), Info, Slug )
 
 loginPath : String
 loginPath =
@@ -37,6 +37,14 @@ eventsPath =
 eventPath : EventId -> String
 eventPath eventId =
   "events/" ++ toString eventId
+
+pagePath : Slug -> String
+pagePath category =
+  "pages/" ++ category
+
+subPagePath : Slug -> Slug -> String
+subPagePath category slug =
+  "pages/" ++ category ++ "/" ++ slug
 
 maybeRequestData : Cmd Msg -> WebData a -> Cmd Msg
 maybeRequestData command data =
@@ -90,6 +98,11 @@ fetchLocationData location model =
           ( Cmd.batch baseCmds )
         else
           ( Cmd.batch ( fetchSingleEvent model.config.apiUrl eventId :: baseCmds ) )
+      -- TODO: Add required commands
+      Models.PageRoute category ->
+        ( Cmd.batch baseCmds )
+      Models.SubPageRoute category slug ->
+        ( Cmd.batch baseCmds )
       Models.NotFoundRoute ->
         ( Cmd.none )
 
@@ -104,6 +117,8 @@ matchers =
     , map EventRoute (s "events" </> int)
     , map LoginRoute (s "login")
     , map ProfileRoute (s "profile")
+    , map PageRoute (s "pages" </> string)
+    , map SubPageRoute (s "pages" </> string </> string)
     ]
 
 
@@ -133,6 +148,10 @@ locationSubtitle route =
       "Tapahtumat"
     EventRoute eventId ->
       "Tapahtumat"
+    PageRoute category ->
+      category
+    SubPageRoute category slug ->
+      slug
     NotFoundRoute ->
       "Sivua ei löytynyt"
 

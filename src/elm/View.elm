@@ -50,6 +50,12 @@ page model =
     Models.EventRoute id ->
       mainLayout model (Events.EventPage.view model id)
 
+    Models.PageRoute category ->
+      mainLayout model (landingPage model)
+
+    Models.SubPageRoute category slug ->
+      mainLayout model (landingPage model)
+
     Models.NotFoundRoute ->
       mainLayout model notFoundView
 

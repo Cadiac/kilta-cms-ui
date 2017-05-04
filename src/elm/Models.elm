@@ -134,6 +134,7 @@ type alias Profile =
 
 -- ROUTES
 
+type alias Slug = String
 
 type Route
   = IndexRoute
@@ -143,6 +144,8 @@ type Route
   | NewsRoute NewsId
   | EventListRoute
   | EventRoute EventId
+  | PageRoute Slug
+  | SubPageRoute Slug Slug
   | NotFoundRoute
 
 -- MODEL
