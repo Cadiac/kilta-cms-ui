@@ -4,9 +4,9 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 
 import Msgs exposing (Msg)
-import Models exposing (Model)
+import Models exposing (Model, Slug)
 
-import Routing exposing (locationSubtitle)
+import Routing exposing (locationSubtitle, defaultCategoryPageSlug)
 
 import Common.Navbar
 import Common.Sponsors
@@ -20,7 +20,6 @@ import News.NewsPage
 import Events.EventsList
 import Events.EventPage
 import Pages.SubPage
-import Pages.PagesMenu
 
 view : Model -> Html Msg
 view model =
@@ -55,7 +54,7 @@ page model =
       mainLayout model (Events.EventPage.view model id)
 
     Models.PageRoute category ->
-      mainLayout model (Pages.PagesMenu.view model)
+      mainLayout model (Pages.SubPage.view model (defaultCategoryPageSlug model category))
 
     Models.SubPageRoute category slug ->
       mainLayout model (Pages.SubPage.view model slug)

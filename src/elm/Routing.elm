@@ -94,16 +94,21 @@ fetchLocationData location model =
       Models.EventListRoute ->
         ( Cmd.batch baseCmds )
       Models.EventRoute eventId ->
-        -- Check if we already have the event fetched
         if Dict.member eventId model.events then
           ( Cmd.batch baseCmds )
         else
           ( Cmd.batch ( fetchSingleEvent model.config.apiUrl eventId :: baseCmds ) )
-      -- TODO: Add required commands
       Models.PageRoute category ->
-        ( Cmd.batch baseCmds )
+        let
+          slug =
+            defaultCategoryPageSlug model category
+        in
+          if Dict.member slug model.pages then
+            ( Cmd.batch baseCmds )
+          else
+            ( Cmd.batch ( fetchSinglePage model.config.apiUrl slug :: baseCmds ) )
+
       Models.SubPageRoute category slug ->
-        -- Check if we already have the event fetched
         if Dict.member slug model.pages then
           ( Cmd.batch baseCmds )
         else
@@ -200,6 +205,30 @@ isActivePage location route =
     = parseLocation location
   in
     urlRoute == route
+
+defaultCategoryPageSlug : Model -> Slug -> Slug
+defaultCategoryPageSlug model category =
+  let
+    maybeCategories =
+      RemoteData.toMaybe model.pageCategories
+  in
+    case maybeCategories of
+      Just categories ->
+        let
+          subpage =
+            List.filter (\c -> c.slug == category) categories
+              |> List.map (\c -> c.subpages)
+              |> List.head
+              |> Maybe.withDefault []
+              |> List.head
+        in
+          case subpage of
+            Just subpage ->
+              subpage.slug
+            Nothing ->
+              ""
+      Nothing ->
+        ""
 
 onLinkClick : msg -> Attribute msg
 onLinkClick message =

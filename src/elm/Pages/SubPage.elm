@@ -21,7 +21,7 @@ pageItem subpage =
       ]
     ]
     , Markdown.toHtml [ class "content" ] subpage.text
-    ]
+  ]
 
 maybePageContent : WebData (PageItem) -> Html Msg
 maybePageContent response =
