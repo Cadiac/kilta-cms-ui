@@ -83,6 +83,8 @@ fetchLocationData location model =
         ( Cmd.batch baseCmds )
       Models.ProfileRoute ->
         ( Cmd.batch ( fetchProfile model.config.apiUrl model.token :: baseCmds ) )
+      Models.LogoutRoute ->
+        ( Cmd.batch baseCmds )
       Models.NewsListRoute ->
         ( Cmd.batch baseCmds )
       Models.NewsRoute newsId ->
@@ -127,6 +129,7 @@ matchers =
     , map EventRoute (s "events" </> int)
     , map LoginRoute (s "login")
     , map ProfileRoute (s "profile")
+    , map LogoutRoute (s "logout")
     , map PageRoute (s "pages" </> string)
     , map SubPageRoute (s "pages" </> string </> string)
     ]
@@ -157,6 +160,8 @@ locationSubtitle route =
       "Kirjaudu"
     ProfileRoute ->
       "Profiili"
+    LogoutRoute ->
+      "Kirjaudu ulos"
     NewsListRoute ->
       "Uutiset"
     NewsRoute newsId ->

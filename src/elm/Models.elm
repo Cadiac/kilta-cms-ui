@@ -147,6 +147,7 @@ type Route
   = IndexRoute
   | LoginRoute
   | ProfileRoute
+  | LogoutRoute
   | NewsListRoute
   | NewsRoute NewsId
   | EventListRoute
@@ -177,5 +178,6 @@ type alias Model =
   , profile : WebData Profile
   , username : String
   , password : String
+  , logoutTimer : Int
   , error : String
   }

@@ -26,5 +26,6 @@ initialModel flags route =
   , profile = RemoteData.NotAsked
   , username = ""
   , password = ""
+  , logoutTimer = 0
   , error = ""
   }

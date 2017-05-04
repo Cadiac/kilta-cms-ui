@@ -14,11 +14,14 @@ import Common.Footer
 
 import User.LoginForm
 import User.ProfilePage
+import User.LogoutPage
 
 import News.NewsList
 import News.NewsPage
+
 import Events.EventsList
 import Events.EventPage
+
 import Pages.SubPage
 
 view : Model -> Html Msg
@@ -40,6 +43,9 @@ page model =
 
     Models.ProfileRoute ->
       mainLayout model (User.ProfilePage.view model)
+
+    Models.LogoutRoute ->
+      mainLayout model (User.LogoutPage.view model)
 
     Models.NewsListRoute ->
       mainLayout model (News.NewsList.view model.newsList)

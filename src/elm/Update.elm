@@ -40,10 +40,22 @@ update msg model =
         ]
 
     Msgs.Logout ->
-      { model | token = "", decodedToken = Nothing } !
+      { model | token = "", decodedToken = Nothing, logoutTimer = 5 } !
         [ clearToken ()
-        , newUrl "/"
+        , newUrl "/logout"
         ]
+
+    Msgs.LogoutTimerTick newTime ->
+      let
+        newTimer =
+          model.logoutTimer - 1
+        command =
+          if newTimer == 0 then
+            newUrl "/"
+          else
+            Cmd.none
+      in
+        { model | logoutTimer = newTimer } ! [ command ]
 
     Msgs.Auth res ->
       case res of

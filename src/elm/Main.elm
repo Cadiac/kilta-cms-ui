@@ -6,6 +6,8 @@ import Init exposing (initialModel)
 import Update exposing (update)
 import View exposing (view)
 
+import Time exposing (Time, second)
+
 import Navigation exposing ( Location )
 import Routing
 
@@ -25,11 +27,12 @@ init flags location =
 
 -- SUBSCRIPTIONS
 
-
 subscriptions : Model -> Sub Msg
 subscriptions model =
-  Sub.none
-
+  if model.logoutTimer > 0 then
+    Time.every second Msgs.LogoutTimerTick
+  else
+    Sub.none
 
 -- APP
 

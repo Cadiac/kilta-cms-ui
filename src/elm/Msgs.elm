@@ -3,12 +3,16 @@ module Msgs exposing (..)
 import Navigation exposing (Location)
 import RemoteData exposing (WebData)
 import Models exposing (..)
+
+import Time exposing (Time)
+
 import Http
 
 type Msg
   = NoOp
   | Login
   | Logout
+  | LogoutTimerTick Time
   | Auth (Result Http.Error String)
   | LoginFormInput LoginForm String
   | ProfileFormInput ProfileForm String
