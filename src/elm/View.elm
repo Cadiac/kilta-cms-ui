@@ -11,6 +11,8 @@ import Routing exposing (locationSubtitle, defaultCategoryPageSlug)
 import Common.Navbar
 import Common.Sponsors
 import Common.Footer
+import Common.GuildInfo
+import Common.Jumbotron
 
 import User.LoginForm
 import User.ProfilePage
@@ -28,6 +30,7 @@ view : Model -> Html Msg
 view model =
   div []
     [ Common.Navbar.view model
+    , Common.Jumbotron.view model.info
     , page model
     , Common.Footer.view model
     ]
@@ -71,6 +74,7 @@ page model =
 landingPage : Model -> Html Msg
 landingPage model =
   div [] [
+    Common.GuildInfo.view model.info,
     News.NewsList.view model.newsList,
     Events.EventsList.view model.eventsList
   ]
