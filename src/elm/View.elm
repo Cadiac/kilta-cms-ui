@@ -18,7 +18,7 @@ import News.NewsPage
 import Events.EventsList
 import Events.EventPage
 import Pages.SubPage
-import Pages.PagesList
+import Pages.PagesMenu
 
 view : Model -> Html Msg
 view model =
@@ -53,7 +53,7 @@ page model =
       mainLayout model (Events.EventPage.view model id)
 
     Models.PageRoute category ->
-      mainLayout model (Pages.PagesList.view model)
+      mainLayout model (Pages.PagesMenu.view model)
 
     Models.SubPageRoute category slug ->
       mainLayout model (Pages.SubPage.view model slug)
