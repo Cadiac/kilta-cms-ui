@@ -1,15 +1,76 @@
 module Update exposing (..)
 
 import Msgs exposing (Msg)
-import Models exposing (Model)
+import Models exposing (Model, Profile)
 import Navigation exposing (newUrl)
-import Commands exposing (submitCredentials, saveToken, clearToken, setTitle)
+import Commands exposing (submitCredentials, saveToken, clearToken, setTitle, updateProfile)
 import Decoders exposing (maybeDecodeToken)
-import RemoteData
+import RemoteData exposing (WebData)
 
 import Dict exposing (Dict)
 
 import Routing exposing (parseLocation, fetchLocationData, locationTitle)
+
+setProfileFirstName : String -> WebData Profile -> WebData Profile
+setProfileFirstName newName profile =
+  case profile of
+    RemoteData.Success profile ->
+      RemoteData.Success { profile | firstName = newName }
+
+    RemoteData.NotAsked ->
+      profile
+
+    RemoteData.Loading ->
+      profile
+
+    RemoteData.Failure error ->
+      profile
+
+setProfileLastName : String -> WebData Profile -> WebData Profile
+setProfileLastName newName profile =
+  case profile of
+    RemoteData.Success profile ->
+      RemoteData.Success { profile | lastName = newName }
+
+    RemoteData.NotAsked ->
+      profile
+
+    RemoteData.Loading ->
+      profile
+
+    RemoteData.Failure error ->
+      profile
+
+setProfileEmail : String -> WebData Profile -> WebData Profile
+setProfileEmail newEmail profile =
+  case profile of
+    RemoteData.Success profile ->
+      RemoteData.Success { profile | email = newEmail }
+
+    RemoteData.NotAsked ->
+      profile
+
+    RemoteData.Loading ->
+      profile
+
+    RemoteData.Failure error ->
+      profile
+
+setProfilePhone : String -> WebData Profile -> WebData Profile
+setProfilePhone newPhone profile =
+  case profile of
+    RemoteData.Success profile ->
+      RemoteData.Success { profile | phone = newPhone }
+
+    RemoteData.NotAsked ->
+      profile
+
+    RemoteData.Loading ->
+      profile
+
+    RemoteData.Failure error ->
+      profile
+
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -76,22 +137,22 @@ update msg model =
     Msgs.ProfileFormInput inputId val ->
       case inputId of
         Models.FirstName ->
-          { model | username = val } ! []
-
+          { model | profile = model.profile |> setProfileFirstName val } ! []
         Models.LastName ->
-          { model | username = val } ! []
-
+          { model | profile = model.profile |> setProfileLastName val } ! []
         Models.Email ->
-          { model | username = val } ! []
-
+          { model | profile = model.profile |> setProfileEmail val } ! []
         Models.Phone ->
-          { model | username = val } ! []
+          { model | profile = model.profile |> setProfilePhone val } ! []
+
+    Msgs.UpdateProfile ->
+      ( model, updateProfile model.config.apiUrl model.token (RemoteData.toMaybe model.profile) )
 
     Msgs.OnFetchSponsors response ->
       ( { model | sponsors = response }, Cmd.none )
 
     Msgs.OnFetchProfile response ->
-      ( { model | profile = response}, Cmd.none )
+      ( { model | profile = response }, Cmd.none )
 
     Msgs.OnFetchNewsList response ->
 

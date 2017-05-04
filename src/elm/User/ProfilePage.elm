@@ -21,78 +21,56 @@ maybeProfileForm response =
 
     RemoteData.Success profile ->
       Html.form
-        [ onSubmit Msgs.Login ]
-        [ div []
-          [ div []
-            [ label
-              [ for "username" ]
-              [ text "Tunnus" ]
-            , input
-              [ onInput (Msgs.ProfileFormInput Models.FirstName)
-              , value profile.username
-              ]
-              []
+        [ onSubmit Msgs.UpdateProfile ] [
+          div [] [
+            div [ class "form-group" ]
+                [ label
+                  [ for "firstName" ]
+                  [ text "Etunimi" ]
+                , input
+                  [ onInput (Msgs.ProfileFormInput Models.FirstName)
+                  , value profile.firstName
+                  ]
+                  []
+                ]
+            , div
+                [ class "form-group" ]
+                [ label
+                  [ for "lastName" ]
+                  [ text "Sukunimi" ]
+                , input
+                  [ onInput (Msgs.ProfileFormInput Models.LastName)
+                  , value profile.lastName
+                  ]
+                  []
+                ]
+            , div
+                [ class "form-group" ]
+                [ label
+                  [ for "email" ]
+                  [ text "Sähköposti" ]
+                , input
+                  [ onInput (Msgs.ProfileFormInput Models.Email)
+                  , value profile.email
+                  ]
+                  []
+                ]
+            , div
+                [ class "form-group" ]
+                [ label
+                  [ for "phone" ]
+                  [ text "Puhelin" ]
+                , input
+                  [ onInput (Msgs.ProfileFormInput Models.Phone)
+                  , value profile.phone
+                  ]
+                  []
+                ]
+            , button
+              [ type_ "submit" ]
+              [ text "Tallenna" ]
             ]
-          , div
-              [ class "form-group" ]
-              [ label
-                [ for "firstName" ]
-                [ text "Etunimi" ]
-              , input
-                [ onInput (Msgs.ProfileFormInput Models.FirstName)
-                , value profile.firstName
-                ]
-                []
-              ]
-          , div
-              [ class "form-group" ]
-              [ label
-                [ for "lastName" ]
-                [ text "Sukunimi" ]
-              , input
-                [ onInput (Msgs.ProfileFormInput Models.LastName)
-                , value profile.lastName
-                ]
-                []
-              ]
-          , div
-              [ class "form-group" ]
-              [ label
-                [ for "email" ]
-                [ text "Sähköposti" ]
-              , input
-                [ onInput (Msgs.ProfileFormInput Models.Email)
-                , value profile.email
-                ]
-                []
-              ]
-          , div
-              [ class "form-group" ]
-              [ label
-                [ for "phone" ]
-                [ text "Puhelin" ]
-              , input
-                [ onInput (Msgs.ProfileFormInput Models.Phone)
-                , value profile.phone
-                ]
-                []
-              ]
-          , div
-              [ class "form-group" ]
-              [ label
-                [ for "role" ]
-                [ text "Rooli" ]
-              , input
-                [ onInput (Msgs.ProfileFormInput Models.FirstName)
-                , value profile.role
-                ]
-                []
-              ]
-          , button
-            [ type_ "submit" ]
-            [ text "Tallenna" ]
           ]
-        ]
 
     RemoteData.Failure error ->
       text (toString error)

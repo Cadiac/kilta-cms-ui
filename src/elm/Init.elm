@@ -4,7 +4,7 @@ import Models exposing (..)
 import Decoders exposing (maybeDecodeToken)
 
 import Dict exposing (Dict)
-import RemoteData exposing (WebData)
+import RemoteData
 
 initialModel : Flags -> Route -> Model
 initialModel flags route =

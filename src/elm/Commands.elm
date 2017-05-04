@@ -9,6 +9,7 @@ import Models exposing (..)
 import RemoteData
 
 import Decoders exposing (..)
+import Encoders exposing (..)
 import Json.Encode as Encode exposing (Value)
 
 
@@ -112,6 +113,18 @@ fetchProfile apiUrl token =
       apiUrl ++ "/api/v1/members/me"
   in
     Jwt.get token url profileDecoder
+      |> RemoteData.sendRequest
+      |> Cmd.map Msgs.OnFetchProfile
+
+updateProfile : String -> String -> Maybe Profile -> Cmd Msg
+updateProfile apiUrl token profile =
+  let
+    url =
+      apiUrl ++ "/api/v1/members/me"
+    encodedProfile =
+      profileEncoder profile
+  in
+    Jwt.put token url (Http.jsonBody encodedProfile) profileDecoder
       |> RemoteData.sendRequest
       |> Cmd.map Msgs.OnFetchProfile
 

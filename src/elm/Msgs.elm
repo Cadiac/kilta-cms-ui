@@ -16,6 +16,7 @@ type Msg
   | Auth (Result Http.Error String)
   | LoginFormInput LoginForm String
   | ProfileFormInput ProfileForm String
+  | UpdateProfile
   | ChangeLocation String
   | OnLocationChange Location
   | OnFetchProfile (WebData Profile)
