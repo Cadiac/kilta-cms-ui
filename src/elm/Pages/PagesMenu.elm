@@ -9,9 +9,9 @@ import RemoteData exposing (WebData)
 
 import Routing exposing (..)
 
-categoryItem : Route -> PageCategory -> Html Msg
+categoryItem : Route -> PageCategory -> List (Html Msg)
 categoryItem currentRoute pageCategory =
-  div [] [
+  [
     p [ class "menu-label" ] [
       text pageCategory.title
     ],
@@ -58,7 +58,7 @@ maybePagesList pages currentRoute =
 
     RemoteData.Success pages ->
       aside [ class "menu" ] (
-        List.map (categoryItem currentRoute) pages
+        List.concat (List.map (categoryItem currentRoute) pages)
       )
 
     RemoteData.Failure error ->

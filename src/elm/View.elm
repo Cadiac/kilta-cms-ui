@@ -6,6 +6,8 @@ import Html.Attributes exposing (..)
 import Msgs exposing (Msg)
 import Models exposing (Model)
 
+import Routing exposing (locationSubtitle)
+
 import Common.Navbar
 import Common.Sponsors
 import Common.Footer
@@ -71,8 +73,11 @@ landingPage model =
 mainLayout : Model -> Html Msg -> Html Msg
 mainLayout model content =
   section [ class "section", style styles.mainSection ] [
+    h1 [ class "title" ] [
+      text (locationSubtitle model.route)
+    ],
     div [ class "columns" ] [
-      div [ class "column is-two-thirds"] [
+      div [ class "column is-9"] [
         content
       ]
       , div [ class "column" ] [

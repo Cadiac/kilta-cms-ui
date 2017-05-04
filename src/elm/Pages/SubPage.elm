@@ -15,7 +15,6 @@ import Markdown
 pageItem : PageItem -> Html Msg
 pageItem subpage =
   article [] [
-    hr [][],
     div [ class "heading" ] [
       h2 [ class "subtitle is-4" ] [
         text subpage.title
@@ -34,19 +33,23 @@ maybePageContent response =
       text "Loading..."
 
     RemoteData.Success page ->
-      section [ class "section" ] [
-        pageItem page
-      ]
+      pageItem page
 
     RemoteData.Failure error ->
       text (toString error)
 
 view : Model -> Slug -> Html Msg
 view model slug =
-  div [] [
-    Pages.PagesMenu.view model,
-    maybePageContent (
-      Dict.get slug model.pages
-        |> Maybe.withDefault RemoteData.NotAsked
-    )
+  section [ class "section" ] [
+    div [ class "columns" ] [
+      div [ class "column is-3" ] [
+        Pages.PagesMenu.view model
+      ],
+      div [ class "column" ] [
+        maybePageContent (
+          Dict.get slug model.pages
+            |> Maybe.withDefault RemoteData.NotAsked
+        )
+      ]
+    ]
   ]

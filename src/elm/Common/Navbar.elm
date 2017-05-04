@@ -8,7 +8,7 @@ import Msgs exposing (Msg)
 import Models exposing (Info, Model, PageCategory, NewsCategory)
 import RemoteData exposing (WebData)
 
-import Routing exposing (onLinkClick, locationSubtitle, pagePath, subPagePath)
+import Routing exposing (onLinkClick, pagePath, subPagePath)
 
 navItem : String -> String -> Html Msg
 navItem url title =
@@ -99,12 +99,6 @@ view model =
   header [ class "nav" ] [
     div [ class "nav-left" ] [
       maybeTitle model.info,
-      div [ class "nav-item" ] [
-        h1 [ class "heading" ] [
-          locationSubtitle model.route
-            |> text
-        ]
-      ],
       maybePageCategories model.pageCategories
     ]
     , div [ class "nav-right nav-menu" ] [

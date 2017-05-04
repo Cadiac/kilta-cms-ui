@@ -4,6 +4,7 @@ import Html exposing (Attribute)
 import Html.Events exposing (onWithOptions)
 
 import Dict exposing (Dict)
+import Char
 
 import Navigation exposing ( Location, newUrl )
 import Commands exposing (..)
@@ -135,6 +136,13 @@ parseLocation location =
     Nothing ->
       NotFoundRoute
 
+capitalize : String -> String
+capitalize string =
+  case String.uncons string of
+    Nothing -> ""
+    Just (head, tail) ->
+      String.append (String.fromChar (Char.toUpper head)) tail
+
 locationSubtitle : Route -> String
 locationSubtitle route =
   case route of
@@ -153,9 +161,9 @@ locationSubtitle route =
     EventRoute eventId ->
       "Tapahtumat"
     PageRoute category ->
-      category
+      capitalize category
     SubPageRoute category slug ->
-      slug
+      capitalize category
     NotFoundRoute ->
       "Sivua ei löytynyt"
 
