@@ -8,6 +8,8 @@ import RemoteData exposing (WebData)
 import Dict exposing (Dict)
 import Models exposing (PageItem, Model, Slug)
 
+import Pages.PagesMenu
+
 import Markdown
 
 pageItem : PageItem -> Html Msg
@@ -41,7 +43,10 @@ maybePageContent response =
 
 view : Model -> Slug -> Html Msg
 view model slug =
-  maybePageContent (
-    Dict.get slug model.pages
-      |> Maybe.withDefault RemoteData.NotAsked
-  )
+  div [] [
+    Pages.PagesMenu.view model,
+    maybePageContent (
+      Dict.get slug model.pages
+        |> Maybe.withDefault RemoteData.NotAsked
+    )
+  ]

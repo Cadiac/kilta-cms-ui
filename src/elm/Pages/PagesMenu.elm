@@ -4,35 +4,70 @@ import Msgs exposing (Msg)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
-import Models exposing (PageItem, PageCategory, SubPage, Slug, Model)
+import Models exposing (PageItem, PageCategory, SubPage, Slug, Route, Model)
 import RemoteData exposing (WebData)
 
-import Routing exposing (onLinkClick, pagePath, subPagePath)
+import Routing exposing (onLinkClick, pagePath, subPagePath, parseLocation)
+import Navigation exposing (Location)
 
-pageItem : PageCategory -> Html Msg
-pageItem page =
+categoryItem : Route -> PageCategory -> Html Msg
+categoryItem currentRoute pageCategory =
   div [] [
     p [ class "menu-label" ] [
-      text page.title
+      text pageCategory.title
     ],
     ul [ class "menu-list" ] (
-      List.map (subPageItem page.slug) page.subpages
+      List.map (subPageItem pageCategory.slug currentRoute) pageCategory.subpages
     )
   ]
 
-subPageItem : Slug -> SubPage -> Html Msg
-subPageItem category subPage =
-  let
-    url = subPagePath category subPage.slug
+urlToLocation : String -> Location
+urlToLocation url =
+  { href = url
+  , host = ""
+  , hostname = ""
+  , protocol = ""
+  , origin = ""
+  , port_ = ""
+  , pathname = ""
+  , search = ""
+  , hash = ""
+  , username = ""
+  , password = ""
+  }
+
+isActivePage : Location -> Route -> Bool
+isActivePage location route =
+  let urlRoute
+    = parseLocation location
   in
-    li [] [
-      a [ href url, onLinkClick (Msgs.ChangeLocation url)] [
+    urlRoute == route
+
+subPageItem : Slug -> Route -> SubPage -> Html Msg
+subPageItem category currentRoute subPage =
+  let
+    url =
+      subPagePath category subPage.slug
+
+    urlLocation =
+      urlToLocation url
+
+    active =
+      isActivePage urlLocation currentRoute
+  in
+    if active then
+      a [ class "is-active", href url, onLinkClick (Msgs.ChangeLocation url)] [
         text subPage.title
       ]
-    ]
+    else
+      li [] [
+        a [ href url, onLinkClick (Msgs.ChangeLocation url)] [
+          text subPage.title
+        ]
+      ]
 
-maybePagesList : WebData (List PageCategory) -> Html Msg
-maybePagesList pages =
+maybePagesList : WebData (List PageCategory) -> Route -> Html Msg
+maybePagesList pages currentRoute =
   case pages of
     RemoteData.NotAsked ->
       text ""
@@ -46,7 +81,7 @@ maybePagesList pages =
 
     RemoteData.Success pages ->
       aside [ class "menu" ] (
-        List.map pageItem pages
+        List.map (categoryItem currentRoute) pages
       )
 
     RemoteData.Failure error ->
@@ -55,4 +90,4 @@ maybePagesList pages =
 
 view : Model -> Html Msg
 view model =
-  maybePagesList model.pageCategories
+  maybePagesList model.pageCategories model.route
