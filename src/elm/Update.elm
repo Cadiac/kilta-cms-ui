@@ -105,3 +105,6 @@ update msg model =
 
     Msgs.OnFetchPageCategories response ->
       ( { model | pageCategories = response }, Cmd.none )
+
+    Msgs.OnFetchSinglePage slug response ->
+      ( { model | pages = Dict.insert slug (response) model.pages }, Cmd.none )

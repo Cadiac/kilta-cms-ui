@@ -55,7 +55,7 @@ type alias NewsItem =
   { id : NewsId
   , title : String
   , text : String
-  , slug : String
+  , slug : Slug
   , created_on : String
   , tags : String
   , news_category : Int
@@ -67,7 +67,7 @@ type alias NewsCategoryId = Int
 type alias NewsCategory =
   { id : NewsCategoryId
   , title : String
-  , slug : String
+  , slug : Slug
   }
 
 type alias PageCategoryId = Int
@@ -75,15 +75,22 @@ type alias PageCategoryId = Int
 type alias SubPage =
   { mainCategory : PageCategoryId
   , title : String
-  , slug : String
+  , slug : Slug
   , priority : Int
   }
 
 type alias PageCategory =
   { id : PageCategoryId
   , title : String
-  , slug : String
+  , slug : Slug
   , subpages : List SubPage
+  }
+
+type alias PageItem =
+  { title : String
+  , slug : Slug
+  , text : String
+  , mainCategory : PageCategoryId
   }
 
 type alias EventId = Int
@@ -160,6 +167,7 @@ type alias Model =
   , eventsList : WebData (List EventItem)
   , newsCategories : WebData (List NewsCategory)
   , pageCategories : WebData (List PageCategory)
+  , pages : Dict Slug (WebData PageItem)
   , sponsors : WebData (List Sponsor)
   , amount : Int
   , config : Flags

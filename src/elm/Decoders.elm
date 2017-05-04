@@ -153,3 +153,11 @@ profileDecoder =
     |> required "email" string
     |> required "phone" string
     |> required "role" string
+
+pageDecoder : Decoder PageItem
+pageDecoder =
+  decode PageItem
+    |> required "title" string
+    |> required "slug" string
+    |> required "text" string
+    |> required "category_id" int

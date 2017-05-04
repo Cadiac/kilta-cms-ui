@@ -24,3 +24,4 @@ type Msg
   | OnFetchSingleEvent EventId (WebData EventItem)
   | OnFetchNewsCategories (WebData (List NewsCategory))
   | OnFetchPageCategories (WebData (List PageCategory))
+  | OnFetchSinglePage Slug (WebData PageItem)

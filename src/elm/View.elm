@@ -17,6 +17,7 @@ import News.NewsList
 import News.NewsPage
 import Events.EventsList
 import Events.EventPage
+import Pages.SubPage
 
 view : Model -> Html Msg
 view model =
@@ -54,7 +55,7 @@ page model =
       mainLayout model (landingPage model)
 
     Models.SubPageRoute category slug ->
-      mainLayout model (landingPage model)
+      mainLayout model (Pages.SubPage.view model slug)
 
     Models.NotFoundRoute ->
       mainLayout model notFoundView

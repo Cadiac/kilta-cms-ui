@@ -16,6 +16,7 @@ initialModel flags route =
   , eventsList = RemoteData.NotAsked
   , newsCategories = RemoteData.NotAsked
   , pageCategories = RemoteData.NotAsked
+  , pages = Dict.empty
   , sponsors = RemoteData.NotAsked
   , amount = 0
   , config = flags

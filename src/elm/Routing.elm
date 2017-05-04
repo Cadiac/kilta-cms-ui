@@ -93,7 +93,7 @@ fetchLocationData location model =
       Models.EventListRoute ->
         ( Cmd.batch baseCmds )
       Models.EventRoute eventId ->
-        -- Check if we already have the news fetched
+        -- Check if we already have the event fetched
         if Dict.member eventId model.events then
           ( Cmd.batch baseCmds )
         else
@@ -102,7 +102,11 @@ fetchLocationData location model =
       Models.PageRoute category ->
         ( Cmd.batch baseCmds )
       Models.SubPageRoute category slug ->
-        ( Cmd.batch baseCmds )
+        -- Check if we already have the event fetched
+        if Dict.member slug model.pages then
+          ( Cmd.batch baseCmds )
+        else
+          ( Cmd.batch ( fetchSinglePage model.config.apiUrl slug :: baseCmds ) )
       Models.NotFoundRoute ->
         ( Cmd.none )
 

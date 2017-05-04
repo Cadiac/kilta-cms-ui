@@ -134,3 +134,13 @@ fetchPageCategories apiUrl =
     Http.get url pageCategoriesDecoder
       |> RemoteData.sendRequest
       |> Cmd.map Msgs.OnFetchPageCategories
+
+fetchSinglePage : String -> Slug -> Cmd Msg
+fetchSinglePage apiUrl slug =
+  let
+    url =
+      apiUrl ++ "/api/v1/pages/" ++ slug
+  in
+    Http.get url pageDecoder
+      |> RemoteData.sendRequest
+      |> Cmd.map (Msgs.OnFetchSinglePage slug)
