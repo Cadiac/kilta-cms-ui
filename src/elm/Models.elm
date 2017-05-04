@@ -62,6 +62,30 @@ type alias NewsItem =
   , authors : List String
   }
 
+type alias NewsCategoryId = Int
+
+type alias NewsCategory =
+  { id : NewsCategoryId
+  , title : String
+  , slug : String
+  }
+
+type alias PageCategoryId = Int
+
+type alias SubPage =
+  { mainCategory : PageCategoryId
+  , title : String
+  , slug : String
+  , priority : Int
+  }
+
+type alias PageCategory =
+  { id : PageCategoryId
+  , title : String
+  , slug : String
+  , subpages : List SubPage
+  }
+
 type alias EventId = Int
 
 type alias EventItem =
@@ -131,6 +155,8 @@ type alias Model =
   , newsList : WebData (List NewsItem)
   , events : Dict EventId (WebData EventItem)
   , eventsList : WebData (List EventItem)
+  , newsCategories : WebData (List NewsCategory)
+  , pageCategories : WebData (List PageCategory)
   , sponsors : WebData (List Sponsor)
   , amount : Int
   , config : Flags

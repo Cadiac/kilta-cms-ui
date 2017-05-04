@@ -5,10 +5,20 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
 
 import Msgs exposing (Msg)
-import Models exposing (Info, Model)
+import Models exposing (Info, Model, PageCategory, NewsCategory)
 import RemoteData exposing (WebData)
 
 import Routing exposing (onLinkClick, locationSubtitle)
+
+navItem : String -> String -> Html Msg
+navItem url title =
+  div [ class "nav-item" ] [
+    a [ href url, onLinkClick (Msgs.ChangeLocation url)] [
+      h1 [ class "heading" ] [
+        text title
+      ]
+    ]
+  ]
 
 maybeTitle : WebData (Info) -> Html Msg
 maybeTitle info =
@@ -17,16 +27,31 @@ maybeTitle info =
       text ""
 
     RemoteData.Loading ->
-      a [ class "btn regular", href "/", onLinkClick (Msgs.ChangeLocation "/")] [
-        text "Loading..."
-      ]
+      navItem "/" "Loading..."
 
     RemoteData.Success info ->
-      a [ href "/", onLinkClick (Msgs.ChangeLocation "/")] [
-        h1 [ class "heading" ] [
-          text ( info.title )
-        ]
-      ]
+      navItem "/" info.title
+
+    RemoteData.Failure error ->
+      text (toString error)
+
+pageItem : PageCategory -> Html Msg
+pageItem page =
+  navItem ("/pages/" ++ page.slug) page.title
+
+maybePageCategories : WebData (List PageCategory) -> Html Msg
+maybePageCategories pages =
+  case pages of
+    RemoteData.NotAsked ->
+      text ""
+
+    RemoteData.Loading ->
+      navItem "/" "Loading..."
+
+    RemoteData.Success pages ->
+      div [ class "level" ] (
+        List.map pageItem pages
+      )
 
     RemoteData.Failure error ->
       text (toString error)
@@ -73,15 +98,14 @@ view : Model -> Html Msg
 view model =
   header [ class "nav" ] [
     div [ class "nav-left" ] [
-      div [ class "nav-item" ] [
-        maybeTitle model.info
-      ],
+      maybeTitle model.info,
       div [ class "nav-item" ] [
         h1 [ class "heading" ] [
           locationSubtitle model.route
             |> text
         ]
-      ]
+      ],
+      maybePageCategories model.pageCategories
     ]
     , div [ class "nav-right nav-menu" ] [
       case model.decodedToken of

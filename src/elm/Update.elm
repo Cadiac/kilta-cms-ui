@@ -99,3 +99,9 @@ update msg model =
 
     Msgs.OnFetchFooter response ->
       ( { model | footer = response }, Cmd.none )
+
+    Msgs.OnFetchNewsCategories response ->
+      ( { model | newsCategories = response }, Cmd.none )
+
+    Msgs.OnFetchPageCategories response ->
+      ( { model | pageCategories = response }, Cmd.none )

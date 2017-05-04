@@ -114,3 +114,23 @@ fetchProfile apiUrl token =
     Jwt.get token url profileDecoder
       |> RemoteData.sendRequest
       |> Cmd.map Msgs.OnFetchProfile
+
+fetchNewsCategories : String -> Cmd Msg
+fetchNewsCategories apiUrl =
+  let
+    url =
+      apiUrl ++ "/api/v1/news/categories"
+  in
+    Http.get url newsCategoriesDecoder
+      |> RemoteData.sendRequest
+      |> Cmd.map Msgs.OnFetchNewsCategories
+
+fetchPageCategories : String -> Cmd Msg
+fetchPageCategories apiUrl =
+  let
+    url =
+      apiUrl ++ "/api/v1/pages"
+  in
+    Http.get url pageCategoriesDecoder
+      |> RemoteData.sendRequest
+      |> Cmd.map Msgs.OnFetchPageCategories

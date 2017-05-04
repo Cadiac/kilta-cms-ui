@@ -18,6 +18,37 @@ sponsorDecoder =
     |> required "website" string
     |> requiredAt ["logo", "url"] string
 
+newsCategoriesDecoder : Decoder (List NewsCategory)
+newsCategoriesDecoder =
+  list newsCategoryDecoder
+
+newsCategoryDecoder : Decoder NewsCategory
+newsCategoryDecoder =
+  decode NewsCategory
+    |> required "id" int
+    |> required "title" string
+    |> required "slug" string
+
+pageCategoriesDecoder : Decoder (List PageCategory)
+pageCategoriesDecoder =
+  list pageCategoryDecoder
+
+pageCategoryDecoder : Decoder PageCategory
+pageCategoryDecoder =
+  decode PageCategory
+    |> required "id" int
+    |> required "title" string
+    |> required "slug" string
+    |> required "subpages" (list subpageCategoryDecoder)
+
+subpageCategoryDecoder : Decoder SubPage
+subpageCategoryDecoder =
+  decode SubPage
+    |> required "category_id" int
+    |> required "title" string
+    |> required "slug" string
+    |> required "priority" int
+
 infoDecoder : Decoder Info
 infoDecoder =
   decode Info

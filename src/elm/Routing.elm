@@ -61,6 +61,8 @@ fetchLocationData location model =
       , maybeRequestData (fetchNewsList model.config.apiUrl) model.newsList
       , maybeRequestData (fetchEventsList model.config.apiUrl) model.eventsList
       , maybeRequestData (fetchSponsors model.config.apiUrl) model.sponsors
+      , maybeRequestData (fetchNewsCategories model.config.apiUrl) model.newsCategories
+      , maybeRequestData (fetchPageCategories model.config.apiUrl) model.pageCategories
       ]
   in
     case location of
