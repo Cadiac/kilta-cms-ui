@@ -7,6 +7,7 @@ import Commands
 import Decoders exposing (maybeDecodeToken)
 import RemoteData exposing (WebData)
 
+import Time exposing (Time)
 import Dict exposing (Dict)
 
 import Routing exposing (parseLocation, fetchLocationData, locationTitle)
@@ -147,6 +148,9 @@ update msg model =
 
     Msgs.UpdateProfile ->
       ( model, Commands.updateProfile model.config.apiUrl model.token (RemoteData.toMaybe model.profile) )
+
+    Msgs.ChangeJumbotronImage newTime ->
+      { model | jumbotronTimer = model.jumbotronTimer + 1 } ! []
 
     Msgs.ParticipateEvent eventId ->
       ( model, Commands.participateEvent model.config.apiUrl model.token eventId )

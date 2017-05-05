@@ -27,5 +27,6 @@ initialModel flags route =
   , username = ""
   , password = ""
   , logoutTimer = 0
+  , jumbotronTimer = 0
   , error = ""
   }

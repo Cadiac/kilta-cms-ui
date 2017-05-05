@@ -6,10 +6,10 @@ import Html.Attributes exposing (..)
 
 import Array
 import RemoteData exposing (WebData)
-import Models exposing (Info)
+import Models exposing (Info, Model)
 
-maybeJumbotron : WebData (Info) -> Html Msg
-maybeJumbotron response =
+maybeJumbotron : WebData (Info) -> Int -> Html Msg
+maybeJumbotron response timer =
   case response of
     RemoteData.NotAsked ->
       text ""
@@ -23,8 +23,10 @@ maybeJumbotron response =
           Array.fromList info.jumbotron
         imagesCount =
           Array.length imagesArray
+        imageIndex =
+          timer % imagesCount
         imageSrc =
-          case (Array.get 0 imagesArray) of
+          case (Array.get imageIndex imagesArray) of
             Just jumbotronImage ->
               jumbotronImage
             Nothing ->
@@ -39,9 +41,9 @@ maybeJumbotron response =
     RemoteData.Failure error ->
       text (toString error)
 
-view : WebData (Info) -> Html Msg
-view response =
-  maybeJumbotron response
+view : Model -> Html Msg
+view model =
+  maybeJumbotron model.info model.jumbotronTimer
 
 styles : { jumbotron : List ( String, String ) }
 styles =

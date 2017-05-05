@@ -179,5 +179,6 @@ type alias Model =
   , username : String
   , password : String
   , logoutTimer : Int
+  , jumbotronTimer : Int
   , error : String
   }

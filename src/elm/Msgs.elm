@@ -18,6 +18,7 @@ type Msg
   | ProfileFormInput ProfileForm String
   | UpdateProfile
   | ParticipateEvent EventId
+  | ChangeJumbotronImage Time
   | ChangeLocation String
   | OnLocationChange Location
   | OnFetchProfile (WebData Profile)

@@ -58,41 +58,38 @@ maybePageCategories pages =
 
 loginButton : Html Msg
 loginButton =
-  a [ class "button is-primary is-inverted"
-    , href "/login"
-    , onLinkClick (Msgs.ChangeLocation "/login")
-    ] [
-    span [ class "icon" ][
-      i [ class "fa fa-sign-in" ] []
-    ],
-    span [] [
-      text ( "Login" )
+  div [ class "nav-item" ] [
+    div [ class "level" ] [
+      a [ href "/login", onLinkClick (Msgs.ChangeLocation "/login")] [
+        span [ class "icon" ][
+          i [ class "fa fa-sign-in" ] []
+        ],
+        h1 [ class "heading" ] [
+          text "Kirjaudu"
+        ]
+      ]
     ]
   ]
 
 logoutButton : Html Msg
 logoutButton =
-  a [ class "button is-primary is-inverted"
-    , onClick (Msgs.Logout)
-    ] [
-    span [ class "icon" ][
-      i [ class "fa fa-sign-out" ] []
+  div [ class "nav-item" ] [
+    a [ onClick (Msgs.Logout) ] [
+      span [ class "icon" ][
+        i [ class "fa fa-sign-out" ] []
+      ]
     ]
   ]
 
 profileButton : String -> Html Msg
 profileButton username =
- a [ class "button is-primary is-inverted"
-     , href "/profile"
-     , onLinkClick (Msgs.ChangeLocation "/profile")
-     ] [
-     span [ class "icon" ][
-       i [ class "fa fa-user-circle-o" ] []
-     ],
-     span [] [
-       text ( username )
-     ]
-   ]
+  div [ class "nav-item" ] [
+    a [ class "level-left", href "/profile", onLinkClick (Msgs.ChangeLocation "/profile")] [
+      h1 [ class "heading level-item" ] [
+        text username
+      ]
+    ]
+  ]
 
 view : Model -> Html Msg
 view model =
@@ -104,7 +101,7 @@ view model =
     , div [ class "nav-right nav-menu" ] [
       case model.decodedToken of
         Just decoded ->
-          div [] [
+          div [ class "level" ] [
             profileButton decoded.username,
             logoutButton
           ]

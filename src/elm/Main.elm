@@ -30,9 +30,12 @@ init flags location =
 subscriptions : Model -> Sub Msg
 subscriptions model =
   if model.logoutTimer > 0 then
-    Time.every second Msgs.LogoutTimerTick
+    Sub.batch [
+      Time.every second Msgs.LogoutTimerTick,
+      Time.every (10 * second) Msgs.ChangeJumbotronImage
+    ]
   else
-    Sub.none
+    Time.every (10 * second) Msgs.ChangeJumbotronImage
 
 -- APP
 

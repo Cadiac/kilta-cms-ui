@@ -13,6 +13,7 @@ import Common.Sponsors
 import Common.Footer
 import Common.GuildInfo
 import Common.Jumbotron
+import Common.Logo
 
 import User.LoginForm
 import User.ProfilePage
@@ -29,8 +30,9 @@ import Pages.SubPage
 view : Model -> Html Msg
 view model =
   div []
-    [ Common.Navbar.view model
-    , Common.Jumbotron.view model.info
+    [ Common.Logo.view model.info
+    , Common.Navbar.view model
+    , Common.Jumbotron.view model
     , page model
     , Common.Footer.view model
     ]
