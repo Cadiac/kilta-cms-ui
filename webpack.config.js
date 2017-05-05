@@ -143,10 +143,6 @@ if ( TARGET_ENV === 'production' ) {
     plugins: [
       new CopyWebpackPlugin([
         {
-          from: 'src/static/img/',
-          to:   'static/img/'
-        },
-        {
           from: 'src/favicon.ico'
         }
       ]),

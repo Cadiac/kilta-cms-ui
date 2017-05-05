@@ -9,8 +9,10 @@
     "url": "https://github.com/cadiac/kilta-cms-ui"
   },
   "scripts": {
-    "start": "webpack-dev-server --hot --inline --port=$PORT",
-    "build": "rimraf dist && webpack && mv dist/*.eot dist/static/css/ && mv dist/*.woff* dist/static/css/ && mv dist/*.svg dist/static/css/ && mv dist/*.ttf dist/static/css/",
+    "dev": "webpack-dev-server --hot --inline --port=$PORT",
+    "start": "serve ./dist --single",
+    "build": "NODE_ENV=production webpack -p",
+    "clean": "rimraf dist && webpack && mv dist/*.eot dist/static/css/ && mv dist/*.woff* dist/static/css/ && mv dist/*.svg dist/static/css/ && mv dist/*.ttf dist/static/css/",
     "reinstall": "npm i rimraf && rimraf node_modules && npm uninstall -g elm && npm i -g elm && npm i && elm package install"
   },
   "devDependencies": {
@@ -41,6 +43,11 @@
   },
   "dependencies": {
     "autotrack": "^2.3.2",
-    "bulma": "^0.4.0"
+    "bulma": "^0.4.0",
+    "serve": "latest"
+  },
+  "now": {
+    "name": "kilta-cms-ui",
+    "alias": "kilta"
   }
 }
