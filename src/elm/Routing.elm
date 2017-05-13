@@ -115,6 +115,8 @@ fetchLocationData location model =
           ( Cmd.batch baseCmds )
         else
           ( Cmd.batch ( fetchSinglePage model.config.apiUrl slug :: baseCmds ) )
+      Models.BoardRoute slug ->
+        ( Cmd.batch baseCmds )
       Models.NotFoundRoute ->
         ( Cmd.none )
 
@@ -130,6 +132,7 @@ matchers =
     , map LoginRoute (s "login")
     , map ProfileRoute (s "profile")
     , map LogoutRoute (s "logout")
+    , map BoardRoute (s "pages" </> s "hallitus" </> string)
     , map PageRoute (s "pages" </> string)
     , map SubPageRoute (s "pages" </> string </> string)
     ]
@@ -174,6 +177,8 @@ locationSubtitle route =
       capitalize category
     SubPageRoute category slug ->
       capitalize category
+    BoardRoute year ->
+      "Hallitus " ++ year
     NotFoundRoute ->
       "Sivua ei löytynyt"
 

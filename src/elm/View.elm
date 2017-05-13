@@ -70,6 +70,9 @@ page model =
     Models.SubPageRoute category slug ->
       mainLayout model (Pages.SubPage.view model slug)
 
+    Models.BoardRoute year ->
+      mainLayout model (landingPage model)
+
     Models.NotFoundRoute ->
       mainLayout model notFoundView
 

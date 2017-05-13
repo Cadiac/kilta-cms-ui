@@ -73,15 +73,13 @@ type alias NewsCategory =
 type alias PageCategoryId = Int
 
 type alias SubPage =
-  { mainCategory : PageCategoryId
-  , title : String
+  { title : String
   , slug : Slug
   , priority : Int
   }
 
 type alias PageCategory =
-  { id : PageCategoryId
-  , title : String
+  { title : String
   , slug : Slug
   , subpages : List SubPage
   }
@@ -111,6 +109,37 @@ type alias EventItem =
   , participants : List String
   }
 
+type alias BoardYear =
+  { title : String
+  , year : Int
+  , slug : String
+  }
+
+type alias BoardMember =
+  { id : Int
+  , title : String
+  , first_name : String
+  , last_name : String
+  , email_shorthand : String
+  , irc : String
+  , image : Image
+  }
+
+type alias BoardMeta =
+  { text : String
+  , title : String
+  , year : Int
+  , slug : String
+  , board_members_title : String
+  , board_officials_title : String
+  }
+
+type alias BoardItem =
+  { meta : BoardMeta
+  , chairman : BoardMember
+  , board_members : List BoardMember
+  , board_officials : List BoardMember
+  }
 
 type LoginForm
     = Username
@@ -154,6 +183,7 @@ type Route
   | EventRoute EventId
   | PageRoute Slug
   | SubPageRoute Slug Slug
+  | BoardRoute Slug
   | NotFoundRoute
 
 -- MODEL
@@ -169,6 +199,8 @@ type alias Model =
   , newsCategories : WebData (List NewsCategory)
   , pageCategories : WebData (List PageCategory)
   , pages : Dict Slug (WebData PageItem)
+  , boards : Dict Slug (WebData BoardItem)
+  , boardsList : WebData (List PageCategory)
   , sponsors : WebData (List Sponsor)
   , amount : Int
   , config : Flags

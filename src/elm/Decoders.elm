@@ -36,7 +36,6 @@ pageCategoriesDecoder =
 pageCategoryDecoder : Decoder PageCategory
 pageCategoryDecoder =
   decode PageCategory
-    |> required "id" int
     |> required "title" string
     |> required "slug" string
     |> required "subpages" (list subpageCategoryDecoder)
@@ -44,7 +43,6 @@ pageCategoryDecoder =
 subpageCategoryDecoder : Decoder SubPage
 subpageCategoryDecoder =
   decode SubPage
-    |> required "category_id" int
     |> required "title" string
     |> required "slug" string
     |> required "priority" int

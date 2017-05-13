@@ -9,19 +9,8 @@ import RemoteData exposing (WebData)
 
 import Routing exposing (..)
 
-categoryItem : Route -> PageCategory -> List (Html Msg)
-categoryItem currentRoute pageCategory =
-  [
-    p [ class "menu-label" ] [
-      text pageCategory.title
-    ],
-    ul [ class "menu-list" ] (
-      List.map (subPageItem pageCategory.slug currentRoute) pageCategory.subpages
-    )
-  ]
-
-subPageItem : Slug -> Route -> SubPage -> Html Msg
-subPageItem category currentRoute subPage =
+subMenuItem : Slug -> Route -> SubPage -> Html Msg
+subMenuItem category currentRoute subPage =
   let
     url =
       subPagePath category subPage.slug
@@ -43,28 +32,42 @@ subPageItem category currentRoute subPage =
         ]
       ]
 
-maybePagesList : WebData (List PageCategory) -> Route -> Html Msg
-maybePagesList pages currentRoute =
+categoryItem : Route -> PageCategory -> List (Html Msg)
+categoryItem currentRoute pageCategory =
+  [
+    p [ class "menu-label" ] [
+      text pageCategory.title
+    ],
+    ul [ class "menu-list" ] (
+      List.map (subMenuItem pageCategory.slug currentRoute) pageCategory.subpages
+    )
+  ]
+
+
+maybeMenuItems : WebData (List PageCategory) -> Route -> List (Html Msg)
+maybeMenuItems pages currentRoute =
   case pages of
     RemoteData.NotAsked ->
-      text ""
+      [ text "" ]
 
     RemoteData.Loading ->
-      aside [ class "menu" ] [
-        p [ class "menu-label" ] [
-          text "Loading..."
-        ]
-      ]
+      [ text "Loading..." ]
 
     RemoteData.Success pages ->
-      aside [ class "menu" ] (
-        List.concat (List.map (categoryItem currentRoute) pages)
-      )
+      List.concat (List.map (categoryItem currentRoute) pages)
 
     RemoteData.Failure error ->
-      text (toString error)
+      [ text (toString error) ]
 
+sideMenu : WebData (List PageCategory) -> WebData (List PageCategory) -> Route -> Html Msg
+sideMenu pages boards currentRoute =
+  aside [ class "menu" ] (
+    List.concat [
+      maybeMenuItems pages currentRoute,
+      maybeMenuItems boards currentRoute
+    ]
+  )
 
 view : Model -> Html Msg
 view model =
-  maybePagesList model.pageCategories model.route
+  sideMenu model.pageCategories model.boardsList model.route
