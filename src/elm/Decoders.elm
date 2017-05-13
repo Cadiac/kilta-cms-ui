@@ -1,7 +1,7 @@
 module Decoders exposing (..)
 
 import Json.Decode as Decode exposing (..)
-import Json.Decode.Pipeline exposing (decode, required, requiredAt)
+import Json.Decode.Pipeline exposing (decode, required, optional, requiredAt, hardcoded)
 
 import Jwt exposing (decodeToken)
 
@@ -45,7 +45,7 @@ subpageCategoryDecoder =
   decode SubPage
     |> required "title" string
     |> required "slug" string
-    |> required "priority" int
+    |> optional "priority" int 1
 
 infoDecoder : Decoder Info
 infoDecoder =
@@ -159,3 +159,32 @@ pageDecoder =
     |> required "slug" string
     |> required "text" string
     |> required "category_id" int
+
+boardMetaDecoder : Decoder BoardMeta
+boardMetaDecoder =
+  decode BoardMeta
+    |> required "text" string
+    |> required "title" string
+    |> required "year" int
+    |> required "slug" string
+    |> required "board_members_title" string
+    |> required "board_officials_title" string
+
+boardMemberDecoder : Decoder BoardMember
+boardMemberDecoder =
+  decode BoardMember
+    |> required "id" int
+    |> required "title" string
+    |> required "first_name" string
+    |> required "last_name" string
+    |> required "email_shorthand" string
+    |> required "IRC_nick" string
+    |> required "image" imageDecoder
+
+boardDecoder : Decoder BoardItem
+boardDecoder =
+  decode BoardItem
+    |> required "meta" boardMetaDecoder
+    |> required "chairman" boardMemberDecoder
+    |> required "board_members" (list boardMemberDecoder)
+    |> required "board_officials" (list boardMemberDecoder)

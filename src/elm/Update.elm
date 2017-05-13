@@ -7,7 +7,6 @@ import Commands
 import Decoders exposing (maybeDecodeToken)
 import RemoteData exposing (WebData)
 
-import Time exposing (Time)
 import Dict exposing (Dict)
 
 import Routing exposing (parseLocation, fetchLocationData, locationTitle)
@@ -162,7 +161,6 @@ update msg model =
       ( { model | profile = response }, Cmd.none )
 
     Msgs.OnFetchNewsList response ->
-
       ( { model | newsList = response }, Cmd.none )
 
     Msgs.OnFetchSingleNewsStory newsId response ->
@@ -191,3 +189,6 @@ update msg model =
 
     Msgs.OnParticipateEvent eventId response ->
       ( model, Commands.fetchSingleEvent model.config.apiUrl eventId )
+
+    Msgs.OnFetchBoard slug response ->
+      ( { model | boards = Dict.insert slug (response) model.boards }, Cmd.none )

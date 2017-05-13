@@ -33,3 +33,4 @@ type Msg
   | OnFetchPageCategories (WebData (List PageCategory))
   | OnFetchSinglePage Slug (WebData PageItem)
   | OnParticipateEvent EventId (WebData String)
+  | OnFetchBoard Slug (WebData BoardItem)

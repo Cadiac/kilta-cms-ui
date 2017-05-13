@@ -59,15 +59,12 @@ maybeMenuItems pages currentRoute =
     RemoteData.Failure error ->
       [ text (toString error) ]
 
-sideMenu : WebData (List PageCategory) -> WebData (List PageCategory) -> Route -> Html Msg
-sideMenu pages boards currentRoute =
+sideMenu : WebData (List PageCategory) -> Route -> Html Msg
+sideMenu pages currentRoute =
   aside [ class "menu" ] (
-    List.concat [
-      maybeMenuItems pages currentRoute,
-      maybeMenuItems boards currentRoute
-    ]
+    maybeMenuItems pages currentRoute
   )
 
 view : Model -> Html Msg
 view model =
-  sideMenu model.pageCategories model.boardsList model.route
+  sideMenu model.pageCategories model.route

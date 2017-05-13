@@ -168,3 +168,13 @@ fetchSinglePage apiUrl slug =
     Http.get url pageDecoder
       |> RemoteData.sendRequest
       |> Cmd.map (Msgs.OnFetchSinglePage slug)
+
+fetchBoard : String -> Slug -> Cmd Msg
+fetchBoard apiUrl slug =
+  let
+    url =
+      apiUrl ++ "/api/v1/pages/boards/" ++ slug
+  in
+    Http.get url boardDecoder
+      |> RemoteData.sendRequest
+      |> Cmd.map (Msgs.OnFetchBoard slug)

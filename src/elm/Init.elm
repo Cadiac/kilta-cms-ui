@@ -18,7 +18,6 @@ initialModel flags route =
   , pageCategories = RemoteData.NotAsked
   , pages = Dict.empty
   , boards = Dict.empty
-  , boardsList = RemoteData.NotAsked
   , sponsors = RemoteData.NotAsked
   , amount = 0
   , config = flags

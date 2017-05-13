@@ -200,7 +200,6 @@ type alias Model =
   , pageCategories : WebData (List PageCategory)
   , pages : Dict Slug (WebData PageItem)
   , boards : Dict Slug (WebData BoardItem)
-  , boardsList : WebData (List PageCategory)
   , sponsors : WebData (List Sponsor)
   , amount : Int
   , config : Flags

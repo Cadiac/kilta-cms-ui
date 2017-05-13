@@ -132,7 +132,7 @@ matchers =
     , map LoginRoute (s "login")
     , map ProfileRoute (s "profile")
     , map LogoutRoute (s "logout")
-    , map BoardRoute (s "pages" </> s "hallitus" </> string)
+    , map BoardRoute (s "pages" </> s "boards" </> string)
     , map PageRoute (s "pages" </> string)
     , map SubPageRoute (s "pages" </> string </> string)
     ]
