@@ -26,6 +26,7 @@ import Events.EventsList
 import Events.EventPage
 
 import Pages.SubPage
+import Pages.BoardPage
 
 view : Model -> Html Msg
 view model =
@@ -71,7 +72,7 @@ page model =
       mainLayout model (Pages.SubPage.view model slug)
 
     Models.BoardRoute category year ->
-      mainLayout model (landingPage model)
+      mainLayout model (Pages.BoardPage.view model year)
 
     Models.NotFoundRoute ->
       mainLayout model notFoundView

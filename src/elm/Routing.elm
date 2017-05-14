@@ -120,7 +120,10 @@ fetchLocationData location model =
         else
           ( Cmd.batch ( fetchSinglePage model.config.apiUrl slug :: baseCmds ) )
       Models.BoardRoute category year ->
-        ( Cmd.batch baseCmds )
+        if Dict.member year model.boards then
+          ( Cmd.batch baseCmds )
+        else
+          ( Cmd.batch ( fetchBoard model.config.apiUrl year :: baseCmds ) )
       Models.NotFoundRoute ->
         ( Cmd.none )
 
