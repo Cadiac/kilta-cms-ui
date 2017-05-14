@@ -82,6 +82,7 @@ type alias PageCategory =
   { title : String
   , slug : Slug
   , subpages : List SubPage
+  , boards : List SubPage
   }
 
 type alias PageItem =
@@ -183,7 +184,7 @@ type Route
   | EventRoute EventId
   | PageRoute Slug
   | SubPageRoute Slug Slug
-  | BoardRoute Slug
+  | BoardRoute Slug Slug
   | NotFoundRoute
 
 -- MODEL

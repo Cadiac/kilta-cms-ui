@@ -39,6 +39,7 @@ pageCategoryDecoder =
     |> required "title" string
     |> required "slug" string
     |> required "subpages" (list subpageCategoryDecoder)
+    |> required "boards" (list subpageCategoryDecoder)
 
 subpageCategoryDecoder : Decoder SubPage
 subpageCategoryDecoder =

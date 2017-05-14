@@ -41,11 +41,15 @@ eventPath eventId =
 
 pagePath : Slug -> String
 pagePath category =
-  "/pages/" ++ category
+  "/" ++ category
 
 subPagePath : Slug -> Slug -> String
 subPagePath category slug =
-  "/pages/" ++ category ++ "/" ++ slug
+  "/" ++ category ++ "/" ++ slug
+
+boardPagePath : Slug -> Slug -> String
+boardPagePath category year =
+  "/" ++ category ++ "/boards/" ++ year
 
 maybeRequestData : Cmd Msg -> WebData a -> Cmd Msg
 maybeRequestData command data =
@@ -115,7 +119,7 @@ fetchLocationData location model =
           ( Cmd.batch baseCmds )
         else
           ( Cmd.batch ( fetchSinglePage model.config.apiUrl slug :: baseCmds ) )
-      Models.BoardRoute slug ->
+      Models.BoardRoute category year ->
         ( Cmd.batch baseCmds )
       Models.NotFoundRoute ->
         ( Cmd.none )
@@ -132,9 +136,9 @@ matchers =
     , map LoginRoute (s "login")
     , map ProfileRoute (s "profile")
     , map LogoutRoute (s "logout")
-    , map BoardRoute (s "pages" </> s "boards" </> string)
-    , map PageRoute (s "pages" </> string)
-    , map SubPageRoute (s "pages" </> string </> string)
+    , map PageRoute (string)
+    , map SubPageRoute (string </> string)
+    , map BoardRoute (string </> s "boards" </> string)
     ]
 
 
@@ -177,7 +181,7 @@ locationSubtitle route =
       capitalize category
     SubPageRoute category slug ->
       capitalize category
-    BoardRoute year ->
+    BoardRoute category year ->
       "Hallitus " ++ year
     NotFoundRoute ->
       "Sivua ei löytynyt"

@@ -9,11 +9,14 @@ import RemoteData exposing (WebData)
 
 import Routing exposing (..)
 
-subMenuItem : Slug -> Route -> SubPage -> Html Msg
-subMenuItem category currentRoute subPage =
+subMenuItem : Slug -> Route -> Bool -> SubPage -> Html Msg
+subMenuItem category currentRoute isBoard subPage =
   let
     url =
-      subPagePath category subPage.slug
+      if isBoard then
+        boardPagePath category subPage.slug
+      else
+        subPagePath category subPage.slug
 
     urlLocation =
       urlToLocation url
@@ -39,7 +42,10 @@ categoryItem currentRoute pageCategory =
       text pageCategory.title
     ],
     ul [ class "menu-list" ] (
-      List.map (subMenuItem pageCategory.slug currentRoute) pageCategory.subpages
+      List.concat [
+        List.map (subMenuItem pageCategory.slug currentRoute False) pageCategory.subpages,
+        List.map (subMenuItem pageCategory.slug currentRoute True) pageCategory.boards
+      ]
     )
   ]
 
