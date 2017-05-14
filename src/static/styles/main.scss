@@ -22,3 +22,7 @@ $purple:       #500A5A;
 $red:          #FF5240;
 
 @import "~bulma/bulma";
+
+body {
+  hyphens: auto;
+}

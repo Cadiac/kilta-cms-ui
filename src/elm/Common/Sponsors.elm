@@ -26,7 +26,7 @@ maybeSponsorGrid response =
 
 sponsorItem : Sponsor -> Html Msg
 sponsorItem sponsor =
-  div [ class "column is-one-third", style styles.column ] [
+  div [ class "column", style styles.column ] [
     figure [ class "image is-64x64", style styles.logo ][
       a [ href sponsor.website ][
         img [ alt sponsor.name, src sponsor.logo ][]

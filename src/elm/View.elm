@@ -91,8 +91,8 @@ mainLayout model content =
     h1 [ class "title" ] [
       text (locationSubtitle model.route)
     ],
-    div [ class "columns" ] [
-      div [ class "column is-9"] [
+    div [ class "columns is-desktop" ] [
+      div [ class "column is-9-desktop"] [
         content
       ]
       , div [ class "column" ] [

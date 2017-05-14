@@ -14,9 +14,10 @@ import Markdown
 
 boardMember : BoardMember -> Html Msg
 boardMember member =
-  figure [ class "column is-3" ] [
+  figure [ class "column is-half-mobile is-one-third-tablet is-one-third-desktop" ] [
     img
       [ class "image is-96x96"
+      , style styles.image
       , src member.image.url
       , alt member.title
       ] []
@@ -43,10 +44,10 @@ boardItem board =
       ]
     ]
     , Markdown.toHtml [ class "content" ] board.meta.text
-    , div [ class "columns is-multiline is-mobile" ] [
+    , div [ class "columns is-multiline " ] [
       boardMember board.chairman
     ]
-    , p [ class "subtitle is-3" ] [
+    , p [ class "subtitle is-3 " ] [
       text board.meta.board_members_title
     ]
     , div [ class "columns is-multiline is-mobile" ] (
@@ -90,3 +91,16 @@ view model year =
       ]
     ]
   ]
+
+-- CSS
+
+type alias Style =
+  List ( String, String )
+
+styles : { image : Style }
+styles =
+  {
+    image =
+      [ ( "border-radius", "50%" )
+      ]
+  }
