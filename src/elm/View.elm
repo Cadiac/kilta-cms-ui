@@ -24,6 +24,7 @@ import News.NewsPage
 
 import Events.EventsList
 import Events.EventPage
+import Events.EventWidget
 
 import Pages.SubPage
 import Pages.BoardPage
@@ -60,7 +61,7 @@ page model =
       mainLayout model (News.NewsPage.view model id)
 
     Models.EventListRoute ->
-      mainLayout model (Events.EventsList.view model.eventsList)
+      mainLayout model (Events.EventsList.view model.upcomingEvents)
 
     Models.EventRoute id ->
       mainLayout model (Events.EventPage.view model id)
@@ -82,7 +83,7 @@ landingPage model =
   div [] [
     Common.GuildInfo.view model.info,
     News.NewsList.view model.newsList,
-    Events.EventsList.view model.eventsList
+    Events.EventsList.view model.upcomingEvents
   ]
 
 mainLayout : Model -> Html Msg -> Html Msg
@@ -96,7 +97,9 @@ mainLayout model content =
         content
       ]
       , div [ class "column" ] [
-        Common.Sponsors.view model.sponsors
+        Common.Sponsors.view model.sponsors,
+        Events.EventWidget.upcomingView model,
+        Events.EventWidget.pastView model
       ]
     ]
   ]

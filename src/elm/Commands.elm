@@ -73,15 +73,25 @@ fetchSingleNewsStory apiUrl newsId =
       |> RemoteData.sendRequest
       |> Cmd.map (Msgs.OnFetchSingleNewsStory newsId)
 
-fetchEventsList : String -> Cmd Msg
-fetchEventsList apiUrl =
+fetchUpcomingEvents : String -> Cmd Msg
+fetchUpcomingEvents apiUrl =
   let
     url =
-      apiUrl ++ "/api/v1/events"
+      apiUrl ++ "/api/v1/events/upcoming"
   in
     Http.get url eventsDecoder
       |> RemoteData.sendRequest
-      |> Cmd.map Msgs.OnFetchEventsList
+      |> Cmd.map Msgs.OnFetchUpcomingEvents
+
+fetchPastEvents : String -> Cmd Msg
+fetchPastEvents apiUrl =
+  let
+    url =
+      apiUrl ++ "/api/v1/events/past"
+  in
+    Http.get url eventsDecoder
+      |> RemoteData.sendRequest
+      |> Cmd.map Msgs.OnFetchPastEvents
 
 fetchSingleEvent : String -> EventId -> Cmd Msg
 fetchSingleEvent apiUrl eventId =

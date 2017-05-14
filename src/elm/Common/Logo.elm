@@ -7,6 +7,8 @@ import Html.Attributes exposing (..)
 import RemoteData exposing (WebData)
 import Models exposing (Info)
 
+import Routing exposing (onLinkClick)
+
 maybeLogo : WebData Info -> Html Msg
 maybeLogo response =
   case response of
@@ -17,11 +19,13 @@ maybeLogo response =
       text "Loading..."
 
     RemoteData.Success info ->
-      img
-        [ style styles.logo
-        , src info.logo.url
-        , alt info.name
-        ] []
+      a [ href "/", onLinkClick (Msgs.ChangeLocation "/")] [
+        img
+          [ style styles.logo
+          , src info.logo.url
+          , alt info.name
+          ] []
+      ]
 
     RemoteData.Failure error ->
       text (toString error)

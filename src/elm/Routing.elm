@@ -72,7 +72,8 @@ fetchLocationData location model =
       [ maybeRequestData (fetchInfo model.config.apiUrl) model.info
       , maybeRequestData (fetchFooter model.config.apiUrl) model.footer
       , maybeRequestData (fetchNewsList model.config.apiUrl) model.newsList
-      , maybeRequestData (fetchEventsList model.config.apiUrl) model.eventsList
+      , maybeRequestData (fetchUpcomingEvents model.config.apiUrl) model.upcomingEvents
+      , maybeRequestData (fetchPastEvents model.config.apiUrl) model.pastEvents 
       , maybeRequestData (fetchSponsors model.config.apiUrl) model.sponsors
       , maybeRequestData (fetchNewsCategories model.config.apiUrl) model.newsCategories
       , maybeRequestData (fetchPageCategories model.config.apiUrl) model.pageCategories

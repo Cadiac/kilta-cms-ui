@@ -166,8 +166,11 @@ update msg model =
     Msgs.OnFetchSingleNewsStory newsId response ->
       ( { model | news = Dict.insert newsId (response) model.news }, Cmd.none )
 
-    Msgs.OnFetchEventsList response ->
-      ( { model | eventsList = response }, Cmd.none )
+    Msgs.OnFetchUpcomingEvents response ->
+      ( { model | upcomingEvents = response }, Cmd.none )
+
+    Msgs.OnFetchPastEvents response ->
+      ( { model | pastEvents = response }, Cmd.none )
 
     Msgs.OnFetchSingleEvent eventId response ->
       ( { model | events = Dict.insert eventId (response) model.events }, Cmd.none )
