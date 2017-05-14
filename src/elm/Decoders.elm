@@ -178,8 +178,8 @@ boardMemberDecoder =
     |> required "title" string
     |> required "first_name" string
     |> required "last_name" string
-    |> required "email_shorthand" string
-    |> required "IRC_nick" string
+    |> optional "email" string "-"
+    |> optional "IRC_nick" string "-"
     |> required "image" imageDecoder
 
 boardDecoder : Decoder BoardItem
