@@ -28,11 +28,9 @@ maybeNewsList response =
 
 view : WebData (List NewsItem) -> Html Msg
 view response =
-  section [ class "box" ] [
-    div [ class "heading" ] [
-      h1 [ class "title is-3" ] [
-        text "Ajankohtaista"
-      ]
+  section [ class "section" ] [
+    h1 [ class "title is-3" ] [
+      text "Ajankohtaista"
     ]
     , maybeNewsList response
   ]

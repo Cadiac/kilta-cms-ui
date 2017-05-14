@@ -22,17 +22,14 @@ view event =
     path =
       eventPath event.id
   in
-    article [] [
+    article [ class "section" ] [
       div [ class "heading" ] [
         a [ class "btn regular", href path, onLinkClick (Msgs.ChangeLocation path)] [
           h1 [ class "title" ] [
             text event.title
-          ],
-          hr [][],
-          h2 [ class "subtitle is-6" ] [
-            text ("Julkaistu " ++ event.created_on)
           ]
         ]
+        , hr [][]
       ]
       , Markdown.toHtml [ class "content" ] event.text
       , table [ class "table" ] [
@@ -82,5 +79,10 @@ view event =
         )
       ]
       , hr [][]
-      , text ("Kirjoittajat: " ++ (String.join ", " event.authors))
+      , p [] [
+        text ("Julkaistu " ++ event.created_on)
+      ]
+      , p [] [
+        text ("Kirjoittajat: " ++ (String.join ", " event.authors))
+      ]
     ]

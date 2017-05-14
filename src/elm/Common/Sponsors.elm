@@ -36,7 +36,7 @@ sponsorItem sponsor =
 
 view : WebData (List Sponsor) -> Html Msg
 view response =
-  div [ class "box" ] [
+  div [ class "section" ] [
     div [ class "heading" ] [
       h1 [ class "subtitle", style styles.heading ] [
         text "Yhteistyökumppanit"

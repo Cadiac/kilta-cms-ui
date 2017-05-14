@@ -94,8 +94,10 @@ profileButton username =
 view : Model -> Html Msg
 view model =
   header [ class "nav" ] [
-    div [ class "nav-left" ] [
-      maybeTitle model.info,
+    div [ class "nav-left is-hidden-mobile" ] [
+      maybeTitle model.info
+    ]
+    , div [ class "nav-center" ] [
       maybePageCategories model.pageCategories
     ]
     , div [ class "nav-right nav-menu" ] [

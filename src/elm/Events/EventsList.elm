@@ -29,11 +29,9 @@ maybeEventsList response =
 
 view : WebData (List EventItem) -> Html Msg
 view response =
-  section [ class "box" ] [
-    div [ class "heading" ] [
-      h1 [ class "title is-3" ] [
-        text "Tapahtumat"
-      ]
+  section [ class "section" ] [
+    h1 [ class "title is-3" ] [
+      text "Tapahtumat"
     ]
     , maybeEventsList response
   ]

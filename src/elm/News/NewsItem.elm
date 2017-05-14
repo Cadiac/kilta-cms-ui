@@ -15,14 +15,21 @@ view news =
     path =
       newsStoryPath news.id
   in
-    article [] [
-      hr [][],
+    article [ class "section" ] [
       div [ class "heading" ] [
         a [ class "btn regular", href path, onLinkClick (Msgs.ChangeLocation path)] [
-          h2 [ class "subtitle is-4" ] [
+          h1 [ class "title" ] [
             text news.title
           ]
         ]
+        , hr [][]
       ]
       , Markdown.toHtml [ class "content" ] news.text
+      , hr [][]
+      , p [ class "subtitle is-6" ] [
+        text ("Julkaistu " ++ news.created_on)
+      ]
+      , p [ class "subtitle is-6" ] [
+        text ("Kirjoittajat: " ++ (String.join ", " news.authors))
+      ]
     ]
