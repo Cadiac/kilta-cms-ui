@@ -39,7 +39,7 @@ maybeEventsList response =
     RemoteData.Success events ->
       table [ class "table is-striped" ] [
         tbody [] (
-          List.map eventItem events
+          List.take 5 events |> List.map eventItem
         )
       ]
 

@@ -77,7 +77,7 @@ fetchUpcomingEvents : String -> Cmd Msg
 fetchUpcomingEvents apiUrl =
   let
     url =
-      apiUrl ++ "/api/v1/events/upcoming"
+      apiUrl ++ "/api/v1/events/upcoming?limit=5"
   in
     Http.get url eventsDecoder
       |> RemoteData.sendRequest
@@ -87,7 +87,7 @@ fetchPastEvents : String -> Cmd Msg
 fetchPastEvents apiUrl =
   let
     url =
-      apiUrl ++ "/api/v1/events/past"
+      apiUrl ++ "/api/v1/events/past?limit=5"
   in
     Http.get url eventsDecoder
       |> RemoteData.sendRequest

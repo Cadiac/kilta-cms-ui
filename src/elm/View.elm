@@ -97,9 +97,9 @@ mainLayout model content =
         content
       ]
       , div [ class "column" ] [
-        Common.Sponsors.view model.sponsors,
         Events.EventWidget.upcomingView model,
-        Events.EventWidget.pastView model
+        Events.EventWidget.pastView model,
+        Common.Sponsors.view model.sponsors
       ]
     ]
   ]
